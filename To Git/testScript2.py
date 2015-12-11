@@ -91,7 +91,8 @@ def testSubscribe():
     
     client.create(gearkey , gearsecret, appid, {'debugmode': True})
     client.setname("Python ja")
-    client.subscribe("/Hi")
+    client.subscribe("/LetsShare")
+    client.subscribe("/LetsPlay")
     client.connect()
     
     def receive_message(topic, message):
@@ -117,14 +118,66 @@ def testUnSubscribe():
     def receive_message(topic, message):
         print topic + " " + message
     
+    counter = 0
+    
     while True:
-        
         time.sleep(3)
         client.on_message = receive_message
-
+        counter += 1
+        print(counter)
+        if counter == 15:
+            client.unsubscribe("/LetsShare")
+            print("unsub")
+        if counter == 30:
+            client.subscribe("/LetsShare")
+            
+def testUnSubscribe2():
+    gearkey = "ExhoyeQoTyJS5Ac"
+    gearsecret = "gzDawaaHRe1KvQhepAw3WYuuGHjBsh"
+    appid = "p107microgear"
+    
+    client.create(gearkey , gearsecret, appid, {'debugmode': True})
+    client.setname("Python ja")
+    client.subscribe("/LetsShare")
+    client.subscribe("/Hello W")
+    client.connect()
+    
+    
+    def receive_message(topic, message):
+        print topic + " " + message
+    
+    counter = 0
+    
+    while True:
+        time.sleep(3)
+        client.on_message = receive_message
+        counter += 1
+        print(counter)
+        client.unsubscribe("/WhatTopic")
+        
+def testPublish():
+    gearkey = "ExhoyeQoTyJS5Ac"
+    gearsecret = "gzDawaaHRe1KvQhepAw3WYuuGHjBsh"
+    appid = "p107microgear"
+    
+    client.create(gearkey , gearsecret, appid, {'debugmode': True})
+    client.setname("Python ja")
+    client.connect()
+    
+    def receive_message(topic, message):
+        print topic + " " + message
+    while True:
+        time.sleep(3)
+        client.on_message = receive_message
+        client.publish("/LetsShare", "Let be friend")
+        client.publish("/Hello W", "Hello World Cup")
+        client.publish("/LetsPlay", "Let play game")
+        print("sending..")
+        
     
 #testCreateNetPie()
 #testSetName()
 #testChat()
 testSubscribe()
-#testUnSubscribe()
+#testUnSubscribe2()
+#testPublish()
