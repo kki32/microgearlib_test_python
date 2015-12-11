@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Gamedev Canvas Workshop</title>
+    <style>
+    	* { padding: 0; margin: 0; }
+    	canvas { background: #eee; display: block; margin: 0 auto; }
+    </style>
+</head>
+<body>
+
+<canvas id="myCanvas" width="320" height="320"></canvas>
+
+<script>
+var canvas = document.getElementById("myCanvas");
+var ctx = canvas.getContext("2d");
+var brickRowCount = 4;
+var brickColumnCount = 4;
+var brickWidth = 50;
+var brickHeight = 50;
+var brickPadding = 10;
+var brickOffsetTop = 30;
+var brickOffsetLeft = 30;
+var bridgeSize = 10;
+var totalPolices = 1;
+var bricks = [];
+var taken = [];
+var currentX = 0;
+var currentY = 0;
+var currentStep = 0;
+var step = [0, 0, 0];
+
+var rightPressed = false;
+var leftPressed = false;
+var upPressed = false;
+var downPressed = false;
+document.addEventListener("keydown", keyDownHandler, false);
+document.addEventListener("keyup", keyUpHandler, false);
+
+
+function keyDownHandler(e) {
+    if(e.keyCode == 39) {
+        rightPressed = true;
+    }
+    else if(e.keyCode == 37) {
+        leftPressed = true;
+    }
+        else if(e.keyCode == 38) {
+        upPressed = true;
+    }
+        else if(e.keyCode == 40) {
+        downPressed = true;
+    }
+}
+
+function keyUpHandler(e) {
+    if(e.keyCode == 39) {
+        rightPressed = false;
+    }
+    else if(e.keyCode == 37) {
+        leftPressed = false;
+    }
+            else if(e.keyCode == 38) {
+        upPressed = false;
+    }
+        else if(e.keyCode == 40) {
+        downPressed = false;
+    }
+}
+
+
+for(c=0; c<brickRowCount; c++) {
+    bricks[c] = [];
+    taken[c] = [];
+    for(r=0; r<brickColumnCount; r++) {
+        bricks[c][r] = { x: 0, y: 0, taken: false };
+    }
+}
+
+function bridgeInTwoDirection(col, row) {
+	      ctx.beginPath();
+            ctx.rect(bricks[col][row].x + (brickWidth/2), bricks[col][row].y + brickHeight, bridgeSize, bridgeSize);
+            ctx.fillStyle = "pink";
+            ctx.fill();
+            ctx.closePath();
+
+            	        ctx.beginPath();
+            ctx.rect(bricks[col][row].x + brickWidth, bricks[col][row].y + (brickHeight/2), bridgeSize, bridgeSize);
+            ctx.fillStyle = "pink";
+            ctx.fill();
+            ctx.closePath();
+}
+
+function bridgeInThreeDirection(col, row) {
+	      ctx.beginPath();
+            ctx.rect(bricks[col][row].x + (brickWidth/2), bricks[col][row].y + brickHeight, bridgeSize, bridgeSize);
+            ctx.fillStyle = "pink";
+            ctx.fill();
+            ctx.closePath();
+
+            	        ctx.beginPath();
+            ctx.rect(bricks[col][row].x + brickWidth, bricks[col][row].y + (brickHeight/2), bridgeSize, bridgeSize);
+            ctx.fillStyle = "pink";
+            ctx.fill();
+            ctx.closePath();
+}
+
+
+function bridgeInFourDirection(north, south, east, west) {
+	ctx.beginPath();
+	switch(col){
+		case 0:
+		ctx.rect(bricks[col][row].x + (brickWidth/2), bricks[col][row].y + brickHeight, bridgeSize, bridgeSize);
+		case 1:
+		ctx.rect(bricks[col][row].x + brickWidth, bricks[col][row].y + (brickHeight/2), bridgeSize, bridgeSize);
+		case 2:
+		ctx.rect(bricks[col][row].x + (brickWidth/2) , bricks[col][row].y - bridgeSize, bridgeSize, bridgeSize);
+		case 3:
+		ctx.rect(bricks[col][row].x - bridgeSize , bricks[col][row].y + brickHeight/2, bridgeSize, bridgeSize);
+	}
+	      ctx.fillStyle = "pink";
+            ctx.fill();
+            ctx.closePath();
+}
+
+
+
+function drawBricks() {
+    for(c=0; c<brickColumnCount; c++) {
+        for(r=0; r<brickRowCount; r++) {
+            var brickX = (c*(brickWidth+brickPadding))+brickOffsetLeft;
+            var brickY = (r*(brickHeight+brickPadding))+brickOffsetTop;
+            bricks[c][r].x = brickX;
+            bricks[c][r].y = brickY;
+            bricks[c][r].taken = false;
+
+            ctx.beginPath();
+            ctx.rect(brickX, brickY, brickWidth, brickHeight);
+            ctx.fillStyle = "#0095DD";
+            ctx.fill();
+            ctx.closePath();
+        }
+    }
+}
+
+function resetBricks(c, r) {
+	for(int i=0; i < 2; i++){
+            var brickX = (c*(brickWidth+brickPadding))+brickOffsetLeft;
+            var brickY = (r*(brickHeight+brickPadding))+brickOffsetTop;
+            bricks[c][r].x = brickX;
+            bricks[c][r].y = brickY;
+            bricks[c][r].taken = false;
+
+            ctx.beginPath();
+            ctx.rect(brickX, brickY, brickWidth, brickHeight);
+            ctx.fillStyle = "#0095DD";
+            ctx.fill();
+            ctx.closePath();
+        }
+
+}
+
+
+ drawBricks();
+
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+
+function thief() {
+	ctx.beginPath();
+ctx.rect((bricks[0][0].x) , (bricks[0][0].y) , brickWidth-35, brickHeight-35);
+ ctx.fillStyle = "black";
+ctx.fill();
+ctx.closePath();
+
+bricks[0][0].taken = true;
+
+} 
+
+function police(){
+	
+	ctx.beginPath();
+	ctx.rect(bricks[currentX][currentY].x ,bricks[currentX][currentY].y , brickWidth-35, brickHeight-35);
+	bricks[currentX][currentY].taken = true;
+	ctx.fillStyle = "green";
+	ctx.fill();
+	ctx.closePath();
+	console.log(rightPressed);
+	if(rightPressed) {
+		console.log(currentStep)
+		bricks[currentX][currentY].x += (brickWidth+brickPadding);
+			if(currentStep+1 > 2){
+		step[0] = step[currentStep];
+		step[1] = 0;
+		step[2] = 0;
+		currentStep = 0;
+		resetBricks(col, rol);
+	}
+	else{
+		step[currentStep] = bricks[currentX][currentY];
+		currentStep += 1;
+		alert(currentStep.toString())
+	}
+	}
+	else if(leftPressed) {
+		bricks[currentX][currentY].x -= (brickWidth+brickPadding);
+	}
+		else if(downPressed) {
+		bricks[currentX][currentY].y += (brickHeight+brickPadding);
+	}
+		else if(upPressed) {
+		bricks[currentX][currentY].y -= (brickHeight+brickPadding);
+	}
+
+
+
+	rightPressed = false;
+	leftPressed = false;
+	downPressed = false;
+	upPressed = false;
+
+
+}
+
+function polices() {
+	for(r=0; r<totalPolices; r++) {
+		ctx.beginPath();
+		var col = randomBlockRowPosition();
+		var row = randomBlockRowPosition();
+
+	// console.log(bricks[col][row].taken);
+	// console.log(col);
+	// console.log(row);
+
+	if(bricks[col][row].taken == true){
+		row = randomBlockRowPosition();
+	}
+	
+	ctx.rect(bricks[col][row].x ,bricks[col][row].y , brickWidth-35, brickHeight-35);
+	bricks[col][row].taken = true;
+	currentX = col;
+	currentY = row;
+	ctx.fillStyle = "green";
+	ctx.fill();
+	ctx.closePath();
+	// if((col == 1 && row == 1)|| (col == 2 && row == 1) || (col == 1 && row == 2) || (col == 1 && row == 2)){
+	// console.log(col);
+	// console.log(row);
+	// 	bridgeInFourDirection(col, row);
+	// }
+	// else{
+	// 		console.log(col);
+	// console.log(row);
+	// 	bridgeInTwoDirection(col, row);
+	// }
+	// var north = false;
+	// var south = false;
+	// var east = false;
+	// var west = false;
+
+	console.log(bricks[col][row]);
+
+
+
+  
+  }
+        }
+        	
+function randomBlockColPosition(){
+	return getRandomInt(0, brickColumnCount-1);
+}
+function randomBlockRowPosition(){
+	return getRandomInt(0, brickRowCount-1);
+}
+
+
+
+thief();
+polices();
+setInterval(police, 60);
+</script>
+
+</body>
+</html>

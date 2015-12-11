@@ -1,0 +1,22 @@
+<script src="https://netpie.io/microgear.js"></script>
+<script>
+	const APPKEY	= "Ju6Anp3BDnyhjBV";
+	const APPSECRET = "BqnQpY5E47owIQKL70DuNSlobEOAHC";
+	const APPID 	= "hellonetpie";
+ 
+	var microgear = Microgear.create({
+    	gearkey: APPKEY,
+    	gearsecret: APPSECRET
+	});
+ 
+	microgear.on('connected', function() {
+    	console.log("netpie connected");
+  	
+  	  // ** Put your code here **
+  	
+	});
+ 
+	microgear.resettoken(function(err) {
+    	microgear.connect(APPID);
+	});
+</script>

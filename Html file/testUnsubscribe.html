@@ -1,0 +1,40 @@
+
+<script src="https://netpie.io/microgear.js"></script>
+<script>
+    const APPKEY    = "ExhoyeQoTyJS5Ac";
+    const APPSECRET = "gzDawaaHRe1KvQhepAw3WYuuGHjBsh";
+    const APPID     = "p107microgear";
+
+
+    var firefox_gearname = "Html ka";
+ 
+    var microgear = Microgear.create({
+        gearkey: APPKEY,
+        gearsecret: APPSECRET
+    });
+ 
+     microgear.on('message',function(topic,msg) {
+         alert(msg);
+ //        microgear.chat("Python ja", "Nice day");
+
+ //        //document.getElementById('console').innerHTML += '<br>'+msg;
+     });
+ 
+    microgear.on('connected', function() {
+        console.log('netpie connected');
+        microgear.setname(firefox_gearname);
+        microgear.publish("/LetsShare", "Test Test Test");
+        //or you may use subscribe
+        //microgear.subscribe("/any/topic/here");
+    });
+ 
+    // microgear.resettoken(function(err) {
+        microgear.connect(APPID);
+    
+
+
+    // });
+</script>
+ 
+<div id="console"></div>
+ 

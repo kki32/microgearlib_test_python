@@ -1,0 +1,36 @@
+
+<script src="https://netpie.io/microgear.js"></script>
+<script>
+	const APPKEY	= "ExhoyeQoTyJS5Ac";
+	const APPSECRET = "gzDawaaHRe1KvQhepAw3WYuuGHjBsh";
+	const APPID 	= "p107microgear";
+ 
+	var chrome_gearname =  "chrome1";  // e.g. chrome7
+	var firefox_gearname = "firefox1";  // e.g. firefox7
+ 
+	var microgear = Microgear.create({
+        gearkey: APPKEY,
+        gearsecret: APPSECRET
+	});
+ 
+    microgear.on('connected', function() {
+        console.log("netpie connected");
+        microgear.setname(chrome_gearname);
+	});
+ 
+    microgear.resettoken(function(err) {
+        microgear.connect(APPID);
+	});
+</script>
+ 
+<input type="text" id="text" size=40>
+<input type="button" value="send" onClick="send()">
+ 
+<script>
+    function send() {
+        microgear.chat(firefox_gearname,"hi,this is"+chrome_gearname);
+        //or you may use publish
+        //microgear.publish("/any/topic/here","hi, this is"+chrome_gearname);
+	}
+	// Hint : you can access a text content from document.getElementById('text').value
+</script>
