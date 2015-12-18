@@ -14,15 +14,18 @@
 	});
  
     microgear.on('message',function(topic,msg) {
-        alert(msg);
-        microgear.chat("Python ja", "Nice day");
-       
+        var r = confirm(msg);
+        if(r == true){
+            microgear.chat("Python ja", "Good, Thank you");
+        }
+
         //document.getElementById('console').innerHTML += '<br>'+msg;
 	});
  
     microgear.on('connected', function() {
         console.log('netpie connected');
         microgear.setname(firefox_gearname);
+
         //or you may use subscribe
         //microgear.subscribe("/any/topic/here");
 	});
@@ -33,6 +36,19 @@
 
 	// });
 </script>
+
+
+<input type="text" id="text" size=40>
+<input type="button" value="send" onClick="send()">
  
+<script>
+    function send() {
+        microgear.chat(destination,"hi,this is"+firefox_gearname);
+        console.log("hello");
+        //or you may use publish
+    }
+    // Hint : you can access a text content from document.getElementById('text').value
+</script>
+
 <div id="console"></div>
  

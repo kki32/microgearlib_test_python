@@ -1,0 +1,47 @@
+<script src="https://netpie.io/microgear.js"></script>
+<script>
+    const APPKEY    = "ExhoyeQoTyJS5Ac";
+    const APPSECRET = "gzDawaaHRe1KvQhepAw3WYuuGHjBsh";
+    const APPID     = "p107microgear";
+ 
+    var firefox_gearname = "Html ka";  // e.g. firefox7
+    var destination = "Python ja"
+    // var destination2 = "Not Python ja"
+    // var notDestination = "ds"
+    var destination = "Html ka"
+ 
+    var microgear = Microgear.create({
+        gearkey: APPKEY,
+        gearsecret: APPSECRET
+    });
+
+    microgear.on('message',function(topic,msg) {
+        alert(msg);
+        //document.getElementById('console').innerHTML += '<br>'+msg;
+    });
+
+ 
+    microgear.on('connected', function() {
+        console.log("netpie connected");
+        microgear.setname(firefox_gearname);
+    });
+ 
+    microgear.resettoken(function(err) {
+        microgear.connect(APPID);
+    });
+</script>
+ 
+<input type="text" id="text" size=40>
+<input type="button" value="send" onClick="send()">
+ 
+<script>
+    function send() {
+        microgear.chat(destination, "hi,this is");
+        // microgear.chat(destination2, "hello from");
+        // microgear.chat(notDestination, "None");
+        console.log("halo");
+        //or you may use publish
+        //microgear.publish("/LetsPlay", "hi, this is"+firefox_gearname);
+    }
+    // Hint : you can access a text content from document.getElementById('text').value
+</script>

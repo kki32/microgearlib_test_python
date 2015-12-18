@@ -6,25 +6,22 @@
 	const APPID 	= "p107microgear";
 
 
-	var firefox_gearname = "Html ka";
+	var destination= "Html ka";
+    var firefox_gearname= "Html2 ka";
  
 	var microgear = Microgear.create({
         gearkey: APPKEY,
         gearsecret: APPSECRET
 	});
  
-     microgear.on('message',function(topic,msg) {
-         alert(msg);
- //        microgear.chat("Python ja", "Nice day");
-
- //        //document.getElementById('console').innerHTML += '<br>'+msg;
-	 });
+    microgear.on('message',function(topic,msg) {
+        document.write(msg);
+	});
  
     microgear.on('connected', function() {
         console.log('netpie connected');
         microgear.setname(firefox_gearname);
 
-        // microgear.publish("/Hello W", "Test test");
         //or you may use subscribe
         //microgear.subscribe("/any/topic/here");
 	});
@@ -32,11 +29,25 @@
     // microgear.resettoken(function(err) {
         microgear.connect(APPID);
 
- 
-
 
 	// });
 </script>
+
+
+<input type="text" id="text" height=40>
+<input type="text" id="output" size=100>
+<input type="button" value="send" onClick="send()">
+
  
+<script>
+    function send() {
+        var x = document.getElementById("text").value;
+        microgear.chat(firefox_gearname, x);
+        console.log("hello");
+        //or you may use publish
+    }
+    // Hint : you can access a text content from document.getElementById('text').value
+</script>
+
 <div id="console"></div>
  
