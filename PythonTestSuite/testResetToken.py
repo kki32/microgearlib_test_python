@@ -23,8 +23,15 @@ def testResetToken():
         print("hello")
         client.on_message = receive_message
         
-
+def test2():
+    gearkey2 = "ExhoyeQoTyJS5Ac"
+    gearsecret2 = "gzDawaaHRe1KvQhepAw3WYuuGHjBsh"
+    appid2 = "p107microgear"        
+    print("yeah")
+    client.create(gearkey2, gearsecret2, appid2, {'debugmode': "True", 'alias': "Doraemon"})
+    client.connect()
+    time.sleep(40) 
                 
     
-testResetToken()
+test2()
 

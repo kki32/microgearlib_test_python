@@ -65,7 +65,7 @@ def testScopeChat():
     while True:
         client.chat("not receiver","How are you?")
         time.sleep(3) 
-def test():
+def testtest():
     gearkey = "qnlgzsPUUxYeyQP"
     gearsecret = "1euJPvxybllEPQZzq2u9wpRJXDbjM7"
     appid = "testNo3"    
@@ -96,8 +96,31 @@ def test():
     else:
         print("yes3")
 
+
+def testCreateTwo():
+    gearkey = "qnlgzsPUUxYeyQP"
+    gearsecret = "1euJPvxybllEPQZzq2u9wpRJXDbjM7"
+    appid = "testNo3"
     
+    client.create(gearkey, gearsecret, appid, {'debugmode': "True", 'alias': "Nobita"})
+    client.create(gearkey, gearsecret, appid, {'debugmode': "True", 'alias': "Doraemon"})
+    client.connect()
+    time.sleep(5)
+    print("Next")
+    client.connect()
+    time.sleep(5)
+    print("done")
     
+def test():
+    gearkey = "qnlgzsPUUxYeyQP"
+    gearsecret = "1euJPvxybllEPQZzq2u9wpRJXDbjM7"
+    appid = "testNo3"
+
+    client.create(gearkey, gearsecret, appid, {'debugmode': "True", 'alias': "Nobita"})
+    client.connect()
+    time.sleep(40)
+    
+   
 #def testChat2():
     #gearkey = "ExhoyeQoTyJS5Ac"
     #gearsecret = "gzDawaaHRe1KvQhepAw3WYuuGHjBsh"
