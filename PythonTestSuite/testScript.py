@@ -7,6 +7,7 @@ import os
 from testfixtures import LogCapture
 from testfixtures import *
 import threading
+import six
 
 
 def connectTo():
@@ -30,7 +31,7 @@ def connectTo():
     def on_absent():
         print("absent") 
     client.on_connect = on_connected
-    client.on_error = on_error
+    #client.on_error = on_error
     client.on_present = on_present
     client.on_absent = on_absent
     client.on_rejected = on_rejected

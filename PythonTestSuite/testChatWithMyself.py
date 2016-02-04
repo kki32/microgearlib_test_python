@@ -1,6 +1,6 @@
 import microgear.client as client
 import time
-
+import os
 def testChat():
     gearkey = "ExhoyeQoTyJS5Ac"
     gearsecret = "gzDawaaHRe1KvQhepAw3WYuuGHjBsh"
@@ -8,15 +8,11 @@ def testChat():
 
     origin = "oriA"
     destination = "destX"
+    
     client.create(gearkey , gearsecret, appid, {'debugmode': True})
-    client.setname(origin)
-    client.connect()
-
-    def receive_message(topic, message):
-        print topic + " " + message
-
-    while True:
-        client.chat(origin,"Hello world.")
-        time.sleep(3)
-        client.on_message = receive_message
+    bf = open(os.path.join(os.getcwd(),"microgear.cache"), "rb")
+    print(bf)
+    client.resettoken()
+    af = open(os.path.join(os.getcwd(),"microgear.cache"), "rb")
+    print(af)
 testChat()
