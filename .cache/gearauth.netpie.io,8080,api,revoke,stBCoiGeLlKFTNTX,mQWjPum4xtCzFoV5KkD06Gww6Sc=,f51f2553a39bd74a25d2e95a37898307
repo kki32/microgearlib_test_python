@@ -1,0 +1,17 @@
+status: 200
+response-time: 7
+api-version: 1.1.1
+date: Wed, 03 Feb 2016 03:04:07 GMT
+content-md5: 0HSaq6i4M0Zt/LsEKOT4nA==
+access-control-allow-origin: *
+server: gearauth
+content-type: text/plain
+content-location: http://gearauth.netpie.io:8080/api/revoke/stBCoiGeLlKFTNTX/mQWjPum4xtCzFoV5KkD06Gww6Sc=
+access-control-expose-headers: Api-Version, Request-Id, Response-Time
+access-control-allow-headers: Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, Api-Version, Response-Time
+request-id: cc0bff68-ba36-4e72-a579-fc1be41d529a
+access-control-allow-methods: GET
+content-length: 7
+connection: Keep-Alive
+
+SUCCESS
