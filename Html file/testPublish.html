@@ -1,9 +1,12 @@
 
 <script src="https://netpie.io/microgear.js"></script>
 <script>
-	const APPKEY	= "ExhoyeQoTyJS5Ac";
-	const APPSECRET = "gzDawaaHRe1KvQhepAw3WYuuGHjBsh";
-	const APPID 	= "p107microgear";
+	// const APPKEY	= "ExhoyeQoTyJS5Ac";
+	// const APPSECRET = "gzDawaaHRe1KvQhepAw3WYuuGHjBsh";
+	// const APPID 	= "p107microgear";
+    const APPKEY    = 'NLc1b8a3UZPMhOY';
+const APPSECRET = 'tLzjQQ6FiGUhOX1LTSjtVKsnSExuX7';
+const APPID = 'testNodeJs';
 
 
 	var firefox_gearname = "Html ka";
@@ -23,8 +26,8 @@
     microgear.on('connected', function() {
         console.log('netpie connected');
         microgear.setname(firefox_gearname);
-
-        // microgear.publish("/Hello W", "Test test");
+        
+         microgear.publish("/sameTopic", "Test test");
         //or you may use subscribe
         //microgear.subscribe("/any/topic/here");
 	});

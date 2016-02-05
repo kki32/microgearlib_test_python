@@ -14,7 +14,7 @@ import subprocess
 connect_timeout = 4
 message_timeout = 4
 
-class TestUnsubscribe(unittest.TestCase):
+class TestResettoken(unittest.TestCase):
     def setUp(self):
         self.gearkey = "yMPSuoFBV6Ao322"
         self.gearsecret = "0LoUk4hHStPMzOg5TczeSps3L0XRcE"
@@ -42,10 +42,37 @@ class TestUnsubscribe(unittest.TestCase):
     def tearDown(self):
         #delete receive txt
         os.remove(os.path.join(os.getcwd()+"/receiver.txt"))
- 
-    #helper 51
-    def testCode6Case4(self):  
-        """unsubscribe the same topic twice""" 
+   
+  
+    #fail
+    # def testCode8Case3(self):  
+    #     """resettoken twice"""
+    #     self.assertTrue(os.path.isfile(os.path.join(os.getcwd()+"/microgear.cache")))
+
+    #     self.assertIsNone(microgear.gearkey)
+    #     self.assertIsNone(microgear.gearsecret)    
+    #     self.assertIsNone(microgear.appid)
+        
+    #     client.create(self.gearkey, self.gearsecret, self.appid)
+       
+    #     client.on_connect = MagicMock()
+
+    #     client.resettoken()
+    #     time.sleep(2)
+    #     self.assertFalse(os.path.isfile(os.path.join(os.getcwd()+"/microgear.cache")))
+    #     # client.resettoken()
+    #     # time.sleep(2)
+    #     # self.assertFalse(os.path.isfile(os.path.join(os.getcwd()+"/microgear.cache")))
+    #     client.connect()
+    #     time.sleep(connect_timeout)
+    #     self.assertTrue(client.on_connect.called)
+    #     self.assertEqual(client.on_connect.call_count, 1)
+    #     self.assertTrue(os.path.isfile(os.path.join(os.getcwd()+"/microgear.cache")))
+
+    def testCode8Case2(self):  
+        """resettoken when have microgear.cache while microgear is offline"""
+        self.assertTrue(os.path.isfile(os.path.join(os.getcwd()+"/microgear.cache")))
+
         self.assertIsNone(microgear.gearkey)
         self.assertIsNone(microgear.gearsecret)    
         self.assertIsNone(microgear.appid)
@@ -53,31 +80,24 @@ class TestUnsubscribe(unittest.TestCase):
         client.create(self.gearkey, self.gearsecret, self.appid)
        
         client.on_connect = MagicMock()
-        client.on_message = MagicMock()
-      
+
+        client.resettoken()
+        self.assertFalse(os.path.isfile(os.path.join(os.getcwd()+"/microgear.cache")))
         client.connect()
         time.sleep(connect_timeout)
         self.assertTrue(client.on_connect.called)
         self.assertEqual(client.on_connect.call_count, 1)
-        self.assertFalse(client.on_message.called)
-        client.subscribe(self.topic)
-        self.assertTrue(client.on_message.called)
-        client.on_message.assert_called_with(self.expectedTopic, self.expectedMessage)
-        client.on_message.reset_mock()
-        self.assertFalse(client.on_message.called)
-        client.unsubscribe(self.topic)
-        self.assertFalse(client.on_message.called)
-        client.unsubscribe(self.topic)
-        self.assertFalse(client.on_message.called)
+        self.assertTrue(os.path.isfile(os.path.join(os.getcwd()+"/microgear.cache")))
+
     
 
-def main():
-    #suite = unittest.TestSuite()
-    #suite.addTest(TestChat("testCode4Case2"))
-    #runner = unittest.TextTestRunner()
-    #runner.run(suite)
-    print(os.path.join(os.getcwd(),"microgear.cache"))    
-    unittest.main()
+# def main():
+#     #suite = unittest.TestSuite()
+#     #suite.addTest(TestChat("testCode4Case2"))
+#     #runner = unittest.TextTestRunner()
+#     #runner.run(suite)
+#     print(os.path.join(os.getcwd(),"microgear.cache"))    
+#     unittest.main()
 
-if __name__ == '__main__':
-    main()    
+# if __name__ == '__main__':
+#     main()    

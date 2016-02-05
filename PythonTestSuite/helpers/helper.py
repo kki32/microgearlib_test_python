@@ -129,6 +129,10 @@ def code(x):
     #create in same appkey and subscribe to topic
     elif(x == 61):
         helper(createx=[gearkey, gearsecret, appid], subscribex=[topic])
+    #create in same appkey and subscribe invalid topic - no slash
+    elif(x == 63):
+        helper(createx=[gearkey, gearsecret, appid], subscribex=[invalidTopic])
+
 
 print(sys.argv)
 code(int(sys.argv[1]))
