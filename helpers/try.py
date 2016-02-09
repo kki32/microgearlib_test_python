@@ -29,15 +29,15 @@ def subscription(topic,message):
 client.on_connect = connection
 client.on_message = subscription
 # client.subscribe("/firstTopic")
-client.resettoken()
+print('resettoken')
 client.resettoken()
 time.sleep(10)
-client.connect(False)
-while(True):
-    client.chat("firstTopic","Hello world.")
-    print("pub")
-    time.sleep(3)
-    #need delay
+# client.connect(False)
+# while(True):
+#     client.chat("firstTopic","Hello world.")
+#     print("pub")
+#     time.sleep(3)
+#     #need delay
 print("end")
 #os.remove(os.path.join(os.getcwd()+"/receiver.txt"))
 #print(os.path.join(os.getcwd()))

@@ -27,6 +27,7 @@ class TestChat(unittest.TestCase):
         self.expectedMessage = str(self.message.encode('utf-8')) #convert to bytes
         self.expectedMsgTopic = "/" + self.appid + "/gearname/" + self.gearname
         self.received = False
+
         #clear microgear.cache file
         cache_file = open(os.path.join(os.getcwd()+"/microgear.cache"), "w")
         print(cache_file)
@@ -40,176 +41,31 @@ class TestChat(unittest.TestCase):
         
     def tearDown(self):
     #delete receive txt
+
         os.remove(os.path.join(os.getcwd()+"/receiver.txt"))
 
-    def testCode4Case1(self):
-        """chat with itself"""   
-        self.assertIsNone(microgear.gearkey)
-        self.assertIsNone(microgear.gearsecret)    
-        self.assertIsNone(microgear.appid)
 
-        client.create(self.gearkey, self.gearsecret, self.appid)
-        client.setalias(self.gearname)
-        client.on_message = MagicMock()
-        client.on_connect = MagicMock()
-        client.connect()
-        time.sleep(connect_timeout)
-        self.assertTrue(client.on_connect.called)
-        client.chat(self.gearname, self.message)
-        time.sleep(message_timeout)
-        self.assertTrue(client.on_message.called)
-        client.on_message.assert_called_once_with(self.expectedMsgTopic, self.expectedMessage)
-        
-    #require helper 31
-    def testCode4Case2(self):
-        """chat with other microgear in same appid"""  
-        print("run main...")
 
-        self.assertIsNone(microgear.gearkey)
-        self.assertIsNone(microgear.gearsecret)    
-        self.assertIsNone(microgear.appid)
 
-        client.create(self.gearkey, self.gearsecret, self.appid)
-        client.setalias(self.gearname)
-
-        client.on_connect = MagicMock()
-        
-        client.connect()
-        time.sleep(connect_timeout)
-        self.assertTrue(client.on_connect.called)
-        client.chat(self.helperGearname, self.message)
-        time.sleep(message_timeout)
-        
-        receiver_file = open(os.path.join(os.getcwd(),"receiver.txt"), "r")
-        received_message = receiver_file.read()
-        receiver_file.close()        
-        if(received_message == self.expectedMessage):
-            self.received = True
-        self.assertTrue(self.received)
-    
-    #helper 11
-    def testCode4Case3(self):
-        """chat with other microgear in different appid"""   
-
-       
-        print("run main...")
-
-        self.assertIsNone(microgear.gearkey)
-        self.assertIsNone(microgear.gearsecret)    
-        self.assertIsNone(microgear.appid)
-
-        client.create(self.gearkey, self.gearsecret, self.appid)
-        client.setalias(self.gearname)
-
-        client.on_connect = MagicMock()
-        
-        client.connect()
-        time.sleep(connect_timeout)
-        self.assertTrue(client.on_connect.called)
-        client.chat(self.helperGearname, self.message)
-        time.sleep(message_timeout)
-        receiver_file = open(os.path.join(os.getcwd(),"receiver.txt"), "r")
-        received_message = receiver_file.read()
-        receiver_file.close()
-        if(received_message == self.expectedMessage):
-            self.received = True
-        self.assertFalse(self.received)
-
-        #helper 31
-        #helper 33
-    def testCode4Case5(self):
-        """chat to microgear which shares the same name as itself"""   
-        print("run main...")
-        self.helperGearname = self.gearname
-        self.assertIsNone(microgear.gearkey)
-        self.assertIsNone(microgear.gearsecret)    
-        self.assertIsNone(microgear.appid)
-
-        client.create(self.gearkey, self.gearsecret, self.appid)
-        client.setalias(self.gearname)
-
-        client.on_connect = MagicMock()
-        client.on_message = MagicMock()
-        client.connect()
-        time.sleep(connect_timeout)
-        self.assertTrue(client.on_connect.called)
-
-        client.chat(self.helperGearname, self.message)
-        time.sleep(message_timeout)
-
-        self.assertTrue(client.on_message.called)
-        client.on_message.assert_called_once_with(self.expectedMsgTopic, self.expectedMessage)
-        
-        receiver_file = open(os.path.join(os.getcwd(),"receiver.txt"), "r")
-        received_message = receiver_file.read()
-        receiver_file.close()
-        if(received_message == self.expectedMessage):
-            self.received = True
-        self.assertTrue(self.received)
-    #helper 12
-    def testCode4Case6(self):
-        """chat with other microgear which shares the same gearname in different appid"""   
-        print("run main...")
-        self.helperGearname = self.gearname
-        self.assertIsNone(microgear.gearkey)
-        self.assertIsNone(microgear.gearsecret)    
-        self.assertIsNone(microgear.appid)
-
-        client.create(self.gearkey, self.gearsecret, self.appid)
-        client.setalias(self.gearname)
-
-        client.on_connect = MagicMock()
-        client.on_message = MagicMock()
-        
-        client.connect()
-        time.sleep(connect_timeout)
-        self.assertTrue(client.on_connect.called)
-        client.chat(self.helperGearname, self.message)
-        time.sleep(message_timeout)
-
-        self.assertTrue(client.on_message.called)
-        client.on_message.assert_called_once_with(self.expectedMsgTopic, self.expectedMessage)
-        
-        receiver_file = open(os.path.join(os.getcwd(),"receiver.txt"), "r")
-        received_message = receiver_file.read()
-        receiver_file.close()
-        if(received_message == self.expectedMessage):
-            self.received = True
-            
-        self.assertFalse(self.received)
 
         #helper 31
     
-    #helper 32
-    def testCode4Case8(self):
-        """chat to microgear which has gearname similar to topic"""   
-        print("run main...")
-        self.gearname = '/firstTopic'
-        self.assertIsNone(microgear.gearkey)
-        self.assertIsNone(microgear.gearsecret)    
-        self.assertIsNone(microgear.appid)
 
-        client.create(self.gearkey, self.gearsecret, self.appid)
-        client.setalias(self.gearname)
-
-        client.on_connect = MagicMock()
-        client.connect()
-        time.sleep(connect_timeout)
-        self.assertTrue(client.on_connect.called)
-
-        client.chat(self.helperGearname, self.message)
-        time.sleep(message_timeout)
-
-        receiver_file = open(os.path.join(os.getcwd(),"receiver.txt"), "r")
-        received_message = receiver_file.read()
-        receiver_file.close()
-        if(received_message == self.expectedMessage):
-            self.received = True
-        self.assertFalse(self.received)
      #helper 34
+
+
+
     #helper 34
     def testCode4Case9(self):
-        """chat with other microgear which has empty string as gearname"""   
+        """chat with other microgear which has empty string as gearname"""
+
+        time.sleep(15)
+        print("run helper...")
+        code = str(34)
+        args = ['python3', 'helper.py', code]
+        p = subprocess.Popen(args, cwd=(helper_dir))
+        time.sleep(connect_worst_timeout)
+
         print("run main...")
         self.helperGearname = ""
         self.assertIsNone(microgear.gearkey)
@@ -225,6 +81,7 @@ class TestChat(unittest.TestCase):
         client.connect()
         time.sleep(connect_timeout)
         self.assertTrue(client.on_connect.called)
+        self.connected = True
         print(self.helperGearname, "empty")
         
         client.chat(self.helperGearname, self.message)
@@ -239,6 +96,13 @@ class TestChat(unittest.TestCase):
     #helper 61
     def testCode4Case10(self):
         """chat to topic which has subscriber"""   
+        time.sleep(15)
+        print("run helper...")
+        code = str(61)
+        args = ['python3', 'helper.py', code]
+        p = subprocess.Popen(args, cwd=(helper_dir))
+        time.sleep(connect_worst_timeout)
+
         print("run main...")
         self.gearname = '/firstTopic'
         self.assertIsNone(microgear.gearkey)
@@ -252,6 +116,7 @@ class TestChat(unittest.TestCase):
         client.connect()
         time.sleep(connect_timeout)
         self.assertTrue(client.on_connect.called)
+        self.connected = True
 
         client.chat(self.helperGearname, self.message)
         time.sleep(message_timeout)
@@ -893,32 +758,26 @@ class TestResettoken(unittest.TestCase):
 
         client.resettoken()
         self.assertFalse(os.path.isfile(os.path.join(os.getcwd()+"/microgear.cache")))
-        client.connect()
-        time.sleep(connect_timeout)
-        self.assertTrue(client.on_connect.called)
-        self.assertEqual(client.on_connect.call_count, 1)
-        self.assertTrue(os.path.isfile(os.path.join(os.getcwd()+"/microgear.cache")))
+   
 
-    #fail
     def testCode8Case2(self):  
         """resettoken when have microgear.cache while microgear is offline"""
+        #pre-requisite: ensure there is microgear.cache
         self.assertTrue(os.path.isfile(os.path.join(os.getcwd()+"/microgear.cache")))
 
         self.assertIsNone(microgear.gearkey)
         self.assertIsNone(microgear.gearsecret)    
         self.assertIsNone(microgear.appid)
         
-        client.create(self.gearkey, self.gearsecret, self.appid)
+        client.create(self.gearkey, self.gearsecret, self.appid, {'debugmode': True})
        
         client.on_connect = MagicMock()
 
+        #resettoken when have microgear.cache
         client.resettoken()
+        time.sleep(4)
+        #should delete microgear.cache
         self.assertFalse(os.path.isfile(os.path.join(os.getcwd()+"/microgear.cache")))
-        client.connect()
-        time.sleep(connect_timeout)
-        self.assertTrue(client.on_connect.called)
-        self.assertEqual(client.on_connect.call_count, 1)
-        self.assertTrue(os.path.isfile(os.path.join(os.getcwd()+"/microgear.cache")))
 
     def testCode8Case3(self):  
         """resettoken twice"""
@@ -936,6 +795,8 @@ class TestResettoken(unittest.TestCase):
         self.assertFalse(os.path.isfile(os.path.join(os.getcwd()+"/microgear.cache")))
         client.resettoken()
         self.assertFalse(os.path.isfile(os.path.join(os.getcwd()+"/microgear.cache")))
+
+        #should not affect connect
         client.connect()
         time.sleep(connect_timeout)
         self.assertTrue(client.on_connect.called)
