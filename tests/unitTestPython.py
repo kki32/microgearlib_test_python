@@ -61,9 +61,6 @@ class TestChat(unittest.TestCase):
 
     def testCode4Case1(self):
         """chat with itself"""   
-        self.assertIsNone(microgear.gearkey)
-        self.assertIsNone(microgear.gearsecret)    
-        self.assertIsNone(microgear.appid)
 
         client.create(self.gearkey, self.gearsecret, self.appid)
         client.setalias(self.gearname)
@@ -89,9 +86,6 @@ class TestChat(unittest.TestCase):
         time.sleep(connect_worst_timeout)
 
         print("run main...")
-        self.assertIsNone(microgear.gearkey)
-        self.assertIsNone(microgear.gearsecret)    
-        self.assertIsNone(microgear.appid)
         client.create(self.gearkey, self.gearsecret, self.appid)
         client.setalias(self.gearname)
 
@@ -126,10 +120,6 @@ class TestChat(unittest.TestCase):
 
         print("run main...")
 
-        self.assertIsNone(microgear.gearkey)
-        self.assertIsNone(microgear.gearsecret)    
-        self.assertIsNone(microgear.appid)
-
         client.create(self.gearkey, self.gearsecret, self.appid)
         client.setalias(self.gearname)
 
@@ -161,9 +151,7 @@ class TestChat(unittest.TestCase):
 
         print("run main...")
         self.helperGearname = self.gearname
-        # self.assertIsNone(microgear.gearkey)
-        # self.assertIsNone(microgear.gearsecret)    
-        # self.assertIsNone(microgear.appid)
+
         client.create(self.gearkey, self.gearsecret, self.appid)
         client.setalias(self.gearname)
 
@@ -202,9 +190,6 @@ class TestChat(unittest.TestCase):
 
         print("run main...")
         self.helperGearname = self.gearname
-        # self.assertIsNone(microgear.gearkey)
-        # self.assertIsNone(microgear.gearsecret)    
-        # self.assertIsNone(microgear.appid)
 
         client.create(self.gearkey, self.gearsecret, self.appid)
         client.setalias(self.gearname)
@@ -243,9 +228,6 @@ class TestChat(unittest.TestCase):
 
         print("run main...")
         self.gearname = '/firstTopic'
-        # self.assertIsNone(microgear.gearkey)
-        # self.assertIsNone(microgear.gearsecret)    
-        # self.assertIsNone(microgear.appid)
 
         client.create(self.gearkey, self.gearsecret, self.appid)
         client.setalias(self.gearname)
@@ -281,10 +263,6 @@ class TestChat(unittest.TestCase):
 
         print("run main...")
         self.helperGearname = ""
-        # self.assertIsNone(microgear.gearkey)
-        # self.assertIsNone(microgear.gearsecret)    
-        # self.assertIsNone(microgear.appid)
-
     
         client.create(self.gearkey, self.gearsecret, self.appid)
         client.setalias(self.gearname)
@@ -319,9 +297,7 @@ class TestChat(unittest.TestCase):
 
         print("run main...")
         self.gearname = '/firstTopic'
-        # self.assertIsNone(microgear.gearkey)
-        # self.assertIsNone(microgear.gearsecret)    
-        # self.assertIsNone(microgear.appid)
+
 
         client.create(self.gearkey, self.gearsecret, self.appid)
         client.setalias(self.gearname)

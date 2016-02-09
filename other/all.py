@@ -469,7 +469,12 @@ class TestUnsubscribe(unittest.TestCase):
     #helper 51 to publish topic
     def testCode6Case4x1(self):  
         """unsubscribe the empty topic""" 
-        
+        print("run helper...")
+        code = str(51)
+        args = ['python', 'helper.py', code]
+        p = subprocess.Popen(args, cwd=(helper_dir))
+        time.sleep(connect_worst_timeout)
+
         self.emptyStr = ""
 
         
@@ -481,6 +486,7 @@ class TestUnsubscribe(unittest.TestCase):
         client.connect()
         time.sleep(connect_timeout)
         self.assertTrue(client.on_connect.called)
+        self.connected = True
         self.assertEqual(client.on_connect.call_count, 1)
         self.assertFalse(client.on_message.called)
         client.subscribe(self.topic)
@@ -495,15 +501,20 @@ class TestUnsubscribe(unittest.TestCase):
         time.sleep(connect_timeout)
         self.assertTrue(client.on_message.called)
         client.on_message.assert_called_with(self.expectedTopic, self.expectedMessage)
+        p.kill()
 
     #fail due to subscribe to empty string fail
     #helper 52 to publish empty string topic
     def testCode6Case4x2(self):  
         """unsubscribe the empty topic"""
+        print("run helper...")
+        code = str(52)
+        args = ['python', 'helper.py', code]
+        p = subprocess.Popen(args, cwd=(helper_dir))
+        time.sleep(connect_worst_timeout)
+
         self.topic = ""
-        self.assertIsNone(microgear.gearkey)
-        self.assertIsNone(microgear.gearsecret)    
-        self.assertIsNone(microgear.appid)
+  
         
         client.create(self.gearkey, self.gearsecret, self.appid)
        
@@ -513,11 +524,13 @@ class TestUnsubscribe(unittest.TestCase):
         client.connect()
         time.sleep(connect_timeout)
         self.assertTrue(client.on_connect.called)
+        self.connected = True
         self.assertEqual(client.on_connect.call_count, 1)
         self.assertFalse(client.on_message.called)
         client.subscribe(self.topic)
         time.sleep(message_timeout)
         self.assertTrue(client.on_message.called)
+
         client.on_message.assert_called_with(self.expectedTopic, self.expectedMessage)
 
         client.on_message.reset_mock()
@@ -527,14 +540,19 @@ class TestUnsubscribe(unittest.TestCase):
         time.sleep(connect_timeout)
         self.assertTrue(client.on_message.called)
         client.on_message.assert_called_with(self.expectedTopic, self.expectedMessage)
-        #helper 51
+        p.kill()
+
+    #helper 51
     def testCode6Case5x1(self):  
         """unsubscribe the invalid topic - no slash""" 
+        print("run helper...")
+        code = str(51)
+        args = ['python', 'helper.py', code]
+        p = subprocess.Popen(args, cwd=(helper_dir))
+        time.sleep(connect_worst_timeout)
+
         self.invalidStr = "firstTopic"
-        self.assertIsNone(microgear.gearkey)
-        self.assertIsNone(microgear.gearsecret)    
-        self.assertIsNone(microgear.appid)
-        
+ 
         client.create(self.gearkey, self.gearsecret, self.appid)
        
         client.on_connect = MagicMock()
@@ -543,6 +561,7 @@ class TestUnsubscribe(unittest.TestCase):
         client.connect()
         time.sleep(connect_timeout)
         self.assertTrue(client.on_connect.called)
+        self.connected = True
         self.assertEqual(client.on_connect.call_count, 1)
         self.assertFalse(client.on_message.called)
         client.subscribe(self.topic)
@@ -557,15 +576,18 @@ class TestUnsubscribe(unittest.TestCase):
         time.sleep(connect_timeout)
         self.assertTrue(client.on_message.called)
         client.on_message.assert_called_with(self.expectedTopic, self.expectedMessage)
-    
+        p.kill()
 
     #helper 51
     def testCode6Case6(self):  
         """unsubscribe the topic that is not subscribed""" 
+        print("run helper...")
+        code = str(51)
+        args = ['python', 'helper.py', code]
+        p = subprocess.Popen(args, cwd=(helper_dir))
+        time.sleep(connect_worst_timeout)
+
         self.anotherTopic = "/secondTopic"
-        self.assertIsNone(microgear.gearkey)
-        self.assertIsNone(microgear.gearsecret)    
-        self.assertIsNone(microgear.appid)
         
         client.create(self.gearkey, self.gearsecret, self.appid)
        
@@ -575,6 +597,7 @@ class TestUnsubscribe(unittest.TestCase):
         client.connect()
         time.sleep(connect_timeout)
         self.assertTrue(client.on_connect.called)
+        self.connected = True
         self.assertEqual(client.on_connect.call_count, 1)
         self.assertFalse(client.on_message.called)
         client.subscribe(self.topic)
@@ -589,7 +612,8 @@ class TestUnsubscribe(unittest.TestCase):
         time.sleep(connect_timeout)
         self.assertTrue(client.on_message.called)
         client.on_message.assert_called_with(self.expectedTopic, self.expectedMessage)
-
+        p.kill()
+        
 class TestPublish(unittest.TestCase):
     def setUp(self):
         self.gearkey = "yMPSuoFBV6Ao322"
