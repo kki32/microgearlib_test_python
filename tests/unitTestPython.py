@@ -231,7 +231,7 @@ class TestSubscribe(unittest.TestCase):
     def testCode5Case5x2(self):   
         """subscribe empty topic"""
         try:
-                        print('Code5Case5x1')
+            print('Code5Case5x1')
             print("run helper...")
             code = str(52)
             args = ['python', 'helper.py', code]
