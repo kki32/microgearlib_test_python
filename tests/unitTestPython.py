@@ -72,7 +72,7 @@ class TestChat(unittest.TestCase):
         client.chat(self.gearname, self.message)
         time.sleep(message_timeout)
         self.assertTrue(client.on_message.called)
-        client.on_message.assert_called_once_with(self.expectedMsgTopic, self.message)
+        client.on_message.assert_called_once_with(self.expectedMsgTopic, self.expectedMessage)
         
 
     #require helper 31
@@ -237,123 +237,123 @@ class TestChat(unittest.TestCase):
             p.kill()
             raise Exception(e.args)
 
-    # #helper 32
-    # def testCode4Case8(self):
-    #     """chat to microgear which has gearname similar to topic"""
-    #     try:  
-    #         print('Code4Case8')
-    #         print("run helper...")
-    #         code = str(32)
-    #         args = ['python', 'helper.py', code]
-    #         p = subprocess.Popen(args, cwd=(helper_dir))
-    #         time.sleep(connect_worst_timeout)
+    #helper 32
+    def testCode4Case8(self):
+        """chat to microgear which has gearname similar to topic"""
+        try:  
+            print('Code4Case8')
+            print("run helper...")
+            code = str(32)
+            args = ['python', 'helper.py', code]
+            p = subprocess.Popen(args, cwd=(helper_dir))
+            time.sleep(connect_worst_timeout)
 
-    #         print("run main...")
-    #         self.gearname = '/firstTopic'
+            print("run main...")
+            self.gearname = '/firstTopic'
 
-    #         client.create(self.gearkey, self.gearsecret, self.appid)
-    #         client.setalias(self.gearname)
+            client.create(self.gearkey, self.gearsecret, self.appid)
+            client.setalias(self.gearname)
 
-    #         client.on_connect = MagicMock()
-    #         client.connect()
-    #         time.sleep(connect_timeout)
-    #         self.assertTrue(client.on_connect.called)
-    #         self.connected = True
+            client.on_connect = MagicMock()
+            client.connect()
+            time.sleep(connect_timeout)
+            self.assertTrue(client.on_connect.called)
+            self.connected = True
 
-    #         client.chat(self.helperGearname, self.message)
-    #         time.sleep(message_timeout)
+            client.chat(self.helperGearname, self.message)
+            time.sleep(message_timeout)
 
-    #         receiver_file = open(os.path.join(os.getcwd(),"receiver.txt"), "r")
-    #         received_message = receiver_file.read()
-    #         receiver_file.close()
-    #         if(received_message == self.message):
-    #             self.received = True
-    #         self.assertFalse(self.received)
-    #         p.kill()
-    #             #if fails due to assertion error
-    #     except Exception as e:
-    #         p.kill()
-    #         raise Exception(e.args)
+            receiver_file = open(os.path.join(os.getcwd(),"receiver.txt"), "r")
+            received_message = receiver_file.read()
+            receiver_file.close()
+            if(received_message == self.message):
+                self.received = True
+            self.assertFalse(self.received)
+            p.kill()
+                #if fails due to assertion error
+        except Exception as e:
+            p.kill()
+            raise Exception(e.args)
 
 
-    # #helper 34
-    # def testCode4Case9(self):
-    #     """chat with other microgear which has empty string as gearname"""
-    #     try:
-    #         print('Code4Case9')
+    #helper 34
+    def testCode4Case9(self):
+        """chat with other microgear which has empty string as gearname"""
+        try:
+            print('Code4Case9')
              
-    #         print("run helper...")
-    #         code = str(34)
-    #         args = ['python', 'helper.py', code]
-    #         p = subprocess.Popen(args, cwd=(helper_dir))
-    #         time.sleep(connect_worst_timeout)
+            print("run helper...")
+            code = str(34)
+            args = ['python', 'helper.py', code]
+            p = subprocess.Popen(args, cwd=(helper_dir))
+            time.sleep(connect_worst_timeout)
 
-    #         print("run main...")
-    #         self.helperGearname = ""
+            print("run main...")
+            self.helperGearname = ""
         
-    #         client.create(self.gearkey, self.gearsecret, self.appid)
-    #         client.setalias(self.gearname)
+            client.create(self.gearkey, self.gearsecret, self.appid)
+            client.setalias(self.gearname)
         
-    #         client.on_connect = MagicMock()
+            client.on_connect = MagicMock()
         
-    #         client.connect()
-    #         time.sleep(connect_timeout)
-    #         self.assertTrue(client.on_connect.called)
-    #         self.connected = True
-    #         print(self.helperGearname, "empty")
+            client.connect()
+            time.sleep(connect_timeout)
+            self.assertTrue(client.on_connect.called)
+            self.connected = True
+            print(self.helperGearname, "empty")
             
-    #         client.chat(self.helperGearname, self.message)
-    #         time.sleep(message_timeout)
-    #         receiver_file = open(os.path.join(os.getcwd(),"receiver.txt"), "r")
-    #         received_message = receiver_file.read()
-    #         receiver_file.close()
-    #         if(received_message == self.message):
-    #             self.received = True
-    #         self.assertFalse(self.received)
-    #         p.kill()
-    #                     #if fails due to assertion error
-    #     except Exception as e:
-    #         p.kill()
-    #         raise Exception(e.args)
+            client.chat(self.helperGearname, self.message)
+            time.sleep(message_timeout)
+            receiver_file = open(os.path.join(os.getcwd(),"receiver.txt"), "r")
+            received_message = receiver_file.read()
+            receiver_file.close()
+            if(received_message == self.message):
+                self.received = True
+            self.assertFalse(self.received)
+            p.kill()
+                        #if fails due to assertion error
+        except Exception as e:
+            p.kill()
+            raise Exception(e.args)
 
-    # #helper 61
-    # def testCode4Case10(self):
-    #     """chat to topic which has subscriber"""
-    #     try:   
-    #         print('Code4Case10')
-    #         print("run helper...")
-    #         code = str(61)
-    #         args = ['python', 'helper.py', code]
-    #         p = subprocess.Popen(args, cwd=(helper_dir))
-    #         time.sleep(connect_worst_timeout)
+    #helper 61
+    def testCode4Case10(self):
+        """chat to topic which has subscriber"""
+        try:   
+            print('Code4Case10')
+            print("run helper...")
+            code = str(61)
+            args = ['python', 'helper.py', code]
+            p = subprocess.Popen(args, cwd=(helper_dir))
+            time.sleep(connect_worst_timeout)
 
-    #         print("run main...")
-    #         self.gearname = '/firstTopic'
+            print("run main...")
+            self.gearname = '/firstTopic'
 
 
-    #         client.create(self.gearkey, self.gearsecret, self.appid)
-    #         client.setalias(self.gearname)
+            client.create(self.gearkey, self.gearsecret, self.appid)
+            client.setalias(self.gearname)
 
-    #         client.on_connect = MagicMock()
-    #         client.connect()
-    #         time.sleep(connect_timeout)
-    #         self.assertTrue(client.on_connect.called)
-    #         self.connected = True
+            client.on_connect = MagicMock()
+            client.connect()
+            time.sleep(connect_timeout)
+            self.assertTrue(client.on_connect.called)
+            self.connected = True
 
-    #         client.chat(self.helperGearname, self.message)
-    #         time.sleep(message_timeout)
+            client.chat(self.helperGearname, self.message)
+            time.sleep(message_timeout)
 
-    #         receiver_file = open(os.path.join(os.getcwd(),"receiver.txt"), "r")
-    #         received_message = receiver_file.read()
-    #         receiver_file.close()
-    #         if(received_message == self.message):
-    #             self.received = True
-    #         self.assertFalse(self.received)
-    #         p.kill()
-    #                         #if fails due to assertion error
-    #     except Exception as e:
-    #         p.kill()
-    #         raise Exception(e.args)
+            receiver_file = open(os.path.join(os.getcwd(),"receiver.txt"), "r")
+            received_message = receiver_file.read()
+            receiver_file.close()
+            if(received_message == self.message):
+                self.received = True
+            self.assertFalse(self.received)
+            p.kill()
+                            #if fails due to assertion error
+        except Exception as e:
+            p.kill()
+            raise Exception(e.args)
 
 
 # class TestSubscribe(unittest.TestCase):
@@ -394,30 +394,36 @@ class TestChat(unittest.TestCase):
 #         if(self.connected):
 #             microgear.mqtt_client.disconnect()
 
-#     #helper 51
-#     def testCode5Case1(self):   
-#         """subscribe one topic"""
-#         print("run helper...")
-#         code = str(51)
-#         args = ['python', 'helper.py', code]
-#         p = subprocess.Popen(args, cwd=(helper_dir))
-#         time.sleep(connect_worst_timeout)
+    #helper 51
+    def testCode5Case1(self):   
+        """subscribe one topic"""
+        try:
+            print("run helper...")
+            code = str(51)
+            args = ['python', 'helper.py', code]
+            p = subprocess.Popen(args, cwd=(helper_dir))
+            time.sleep(connect_worst_timeout)
 
-#         client.create(self.gearkey, self.gearsecret, self.appid)
-#         client.subscribe(self.topic)
-#         client.on_connect = MagicMock()
-#         client.on_message = MagicMock()
-       
-#         client.connect()
-#         time.sleep(connect_timeout)
-#         self.assertTrue(client.on_connect.called)
-#         self.connected = True
-#         self.assertEqual(client.on_connect.call_count, 1)   
+            client.create(self.gearkey, self.gearsecret, self.appid)
+            client.subscribe(self.topic)
+            client.on_connect = MagicMock()
+            client.on_message = MagicMock()
+           
+            client.connect()
+            time.sleep(connect_timeout)
+            self.assertTrue(client.on_connect.called)
+            self.connected = True
+            self.assertEqual(client.on_connect.call_count, 1)   
 
-#         time.sleep(message_timeout)
-#         self.assertTrue(client.on_message.called)
-#         client.on_message.assert_called_with(self.expectedTopic, self.expectedMessage)
-#         p.kill()
+            time.sleep(message_timeout)
+            self.assertTrue(client.on_message.called)
+            client.on_message.assert_called_with(self.expectedTopic, self.expectedMessage)
+            p.kill()
+                            #if fails due to assertion error
+        except Exception as e:
+            p.kill()
+            raise Exception(e.args)
+
 
 #     #helper 51
 #     def testCode5Case2(self):   
@@ -444,7 +450,12 @@ class TestChat(unittest.TestCase):
 #         time.sleep(message_timeout)
 #         self.assertTrue(client.on_message.called)
 #         client.on_message.assert_called_with(self.expectedTopic, self.expectedMessage)
-#         p.kill()
+    #         p.kill()
+    #                         #if fails due to assertion error
+    #     except Exception as e:
+    #         p.kill()
+    #         raise Exception(e.args)
+
 #     #helper 51
 #     def testCode5Case3(self):   
 #         """subscribe same topic twice"""
@@ -479,7 +490,11 @@ class TestChat(unittest.TestCase):
 #         client.subscribe(self.topic) #subscribe again
 #         time.sleep(message_timeout)
 #         self.assertTrue(client.on_message.called) #should receive message
-#         p.kill()
+    #         p.kill()
+    #                         #if fails due to assertion error
+    #     except Exception as e:
+    #         p.kill()
+    #         raise Exception(e.args)
 
 #     def testCode5Case4(self):   
 #         """subscribe the topic that it publishes"""
