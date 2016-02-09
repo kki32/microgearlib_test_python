@@ -1,3 +1,4 @@
+import microgear
 import microgear.client as client
 import time
 import sys
@@ -20,6 +21,7 @@ def helper(createx=[], setaliasx=[], chatx=[], publishx=[], subscribex=[]):
     message = "hello"
     received = False
     if(len(createx) > 0):
+        print(microgear.gearkey)
         client.create(createx[0],createx[1],createx[2],{'debugmode': True}) 
 
     def on_connected():
