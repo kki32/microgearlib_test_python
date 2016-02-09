@@ -120,7 +120,7 @@ class TestChat(unittest.TestCase):
   
         print("run helper...")
         code = str(11)
-        args = ['python3', 'helper.py', code]
+        args = ['python', 'helper.py', code]
         p = subprocess.Popen(args, cwd=(helper_dir))
         time.sleep(connect_worst_timeout)
 
@@ -155,7 +155,7 @@ class TestChat(unittest.TestCase):
         time.sleep(15)
         print("run helper...")
         code = str(33)
-        args = ['python3', 'helper.py', code]
+        args = ['python', 'helper.py', code]
         p = subprocess.Popen(args, cwd=(helper_dir))
         time.sleep(connect_worst_timeout)
 
@@ -196,7 +196,7 @@ class TestChat(unittest.TestCase):
 
         print("run helper...")
         code = str(12)
-        args = ['python3', 'helper.py', code]
+        args = ['python', 'helper.py', code]
         p = subprocess.Popen(args, cwd=(helper_dir))
         time.sleep(connect_worst_timeout)   
 
@@ -237,7 +237,7 @@ class TestChat(unittest.TestCase):
 
         print("run helper...")
         code = str(32)
-        args = ['python3', 'helper.py', code]
+        args = ['python', 'helper.py', code]
         p = subprocess.Popen(args, cwd=(helper_dir))
         time.sleep(connect_worst_timeout)
 

@@ -375,10 +375,12 @@ class TestUnsubscribe(unittest.TestCase):
     #helper 51
     def testCode6Case1(self):  
         """unsubscribe the subscribed topic""" 
-        self.assertIsNone(microgear.gearkey)
-        self.assertIsNone(microgear.gearsecret)    
-        self.assertIsNone(microgear.appid)
-        
+        print("run helper...")
+        code = str(51)
+        args = ['python', 'helper.py', code]
+        p = subprocess.Popen(args, cwd=(helper_dir))
+        time.sleep(connect_worst_timeout)
+
         client.create(self.gearkey, self.gearsecret, self.appid)
        
         client.on_connect = MagicMock()
@@ -387,6 +389,7 @@ class TestUnsubscribe(unittest.TestCase):
         client.connect()
         time.sleep(connect_timeout)
         self.assertTrue(client.on_connect.called)
+        self.connected = True
         self.assertEqual(client.on_connect.call_count, 1) 
 
         client.subscribe(self.topic)
@@ -397,13 +400,18 @@ class TestUnsubscribe(unittest.TestCase):
         self.assertFalse(client.on_message.called)
         time.sleep(message_timeout)
         self.assertFalse(client.on_message.called)
-        #helper 51
+        p.kill()
+
+    #helper 51
     def testCode6Case2(self):  
         """unsubscribe the topic before subscribe""" 
-        self.assertIsNone(microgear.gearkey)
-        self.assertIsNone(microgear.gearsecret)    
-        self.assertIsNone(microgear.appid)
-        
+
+        print("run helper...")
+        code = str(51)
+        args = ['python', 'helper.py', code]
+        p = subprocess.Popen(args, cwd=(helper_dir))
+        time.sleep(connect_worst_timeout)
+
         client.create(self.gearkey, self.gearsecret, self.appid)
        
         client.on_connect = MagicMock()
@@ -412,6 +420,7 @@ class TestUnsubscribe(unittest.TestCase):
         client.connect()
         time.sleep(connect_timeout)
         self.assertTrue(client.on_connect.called)
+        self.connected = True
         self.assertEqual(client.on_connect.call_count, 1) 
         self.assertFalse(client.on_message.called)
         client.unsubscribe(self.topic)
@@ -420,13 +429,17 @@ class TestUnsubscribe(unittest.TestCase):
         time.sleep(message_timeout)
         self.assertTrue(client.on_message.called)
         client.on_message.assert_called_with(self.expectedTopic, self.expectedMessage)
-
+        p.kill()
         #helper 51
+    
+    #helper 51
     def testCode6Case3(self):  
         """unsubscribe the same topic twice""" 
-        self.assertIsNone(microgear.gearkey)
-        self.assertIsNone(microgear.gearsecret)    
-        self.assertIsNone(microgear.appid)
+        print("run helper...")
+        code = str(51)
+        args = ['python', 'helper.py', code]
+        p = subprocess.Popen(args, cwd=(helper_dir))
+        time.sleep(connect_worst_timeout)
         
         client.create(self.gearkey, self.gearsecret, self.appid)
        
@@ -436,6 +449,7 @@ class TestUnsubscribe(unittest.TestCase):
         client.connect()
         time.sleep(connect_timeout)
         self.assertTrue(client.on_connect.called)
+        self.connected = True
         self.assertEqual(client.on_connect.call_count, 1)
         self.assertFalse(client.on_message.called)
         client.subscribe(self.topic)
@@ -450,14 +464,14 @@ class TestUnsubscribe(unittest.TestCase):
         client.unsubscribe(self.topic)
         time.sleep(connect_timeout)
         self.assertFalse(client.on_message.called)
+        p.kill()
 
     #helper 51 to publish topic
     def testCode6Case4x1(self):  
         """unsubscribe the empty topic""" 
+        
         self.emptyStr = ""
-        self.assertIsNone(microgear.gearkey)
-        self.assertIsNone(microgear.gearsecret)    
-        self.assertIsNone(microgear.appid)
+
         
         client.create(self.gearkey, self.gearsecret, self.appid)
        
