@@ -87,8 +87,8 @@ def code(x):
     gearkey = "yMPSuoFBV6Ao322"
     gearsecret = "0LoUk4hHStPMzOg5TczeSps3L0XRcE"
     appid = "testPython"
-    gearkey2 = "EDosiaMiPZMhK7M"
-    gearsecret2 = "7Od2AxYdq0hPDBImyAqCJCH9fdsdAG"
+    gearkey2 = "3z7DhYHB6XuC4EZ"
+    gearsecret2 = "P6DdCpQVttgKN0F1Pc7yvUWWJkMOaf"
     appid2 = "testPythonHelper"    
 
     gearname = "mainPython"
