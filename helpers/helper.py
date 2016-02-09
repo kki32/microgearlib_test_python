@@ -30,6 +30,7 @@ def helper(createx=[], setaliasx=[], chatx=[], publishx=[], subscribex=[]):
         print("message")
         time.sleep(2)
         ack = open(os.path.join(os.getcwd(),"../receiver.txt"), "w")
+        print(ack)
         ack.write(message)
         ack.close()
        

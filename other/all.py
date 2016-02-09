@@ -613,7 +613,7 @@ class TestUnsubscribe(unittest.TestCase):
         self.assertTrue(client.on_message.called)
         client.on_message.assert_called_with(self.expectedTopic, self.expectedMessage)
         p.kill()
-        
+
 class TestPublish(unittest.TestCase):
     def setUp(self):
         self.gearkey = "yMPSuoFBV6Ao322"
@@ -628,6 +628,7 @@ class TestPublish(unittest.TestCase):
         self.expectedMsgTopic = "/" + self.appid + "/gearname/" + self.gearname
         self.expectedTopic = "/" + self.appid + self.topic
         self.received = False
+
         #clear microgear.cache file
         cache_file = open(os.path.join(os.getcwd()+"/microgear.cache"), "w")
         print(cache_file)
@@ -646,10 +647,13 @@ class TestPublish(unittest.TestCase):
     #helper 61
     def testCode7Case1(self):  
         """publish topic after some microgear subscribe that topic""" 
-        self.assertIsNone(microgear.gearkey)
-        self.assertIsNone(microgear.gearsecret)    
-        self.assertIsNone(microgear.appid)
-        
+   
+        print("run helper...")
+        code = str(61)
+        args = ['python', 'helper.py', code]
+        p = subprocess.Popen(args, cwd=(helper_dir))
+        time.sleep(connect_worst_timeout)
+
         client.create(self.gearkey, self.gearsecret, self.appid)
        
         client.on_connect = MagicMock()
@@ -657,6 +661,7 @@ class TestPublish(unittest.TestCase):
         client.connect()
         time.sleep(connect_timeout)
         self.assertTrue(client.on_connect.called)
+        self.connected = True
         self.assertEqual(client.on_connect.call_count, 1)
 
         client.publish(self.topic, self.message)
@@ -668,13 +673,18 @@ class TestPublish(unittest.TestCase):
         if(received_message == self.expectedMessage):
             self.received = True
         self.assertTrue(self.received)
+        p.kill()
+
     #helper 61
     def testCode7Case3(self):  
         """publish topic that has no subscriber""" 
+        print("run helper...")
+        code = str(61)
+        args = ['python', 'helper.py', code]
+        p = subprocess.Popen(args, cwd=(helper_dir))
+        time.sleep(connect_worst_timeout)
+
         self.anotherTopic = "/secondTopic"
-        self.assertIsNone(microgear.gearkey)
-        self.assertIsNone(microgear.gearsecret)    
-        self.assertIsNone(microgear.appid)
         
         client.create(self.gearkey, self.gearsecret, self.appid)
        
@@ -683,6 +693,7 @@ class TestPublish(unittest.TestCase):
         client.connect()
         time.sleep(connect_timeout)
         self.assertTrue(client.on_connect.called)
+        self.connected = True
         self.assertEqual(client.on_connect.call_count, 1)
 
         client.publish(self.anotherTopic, self.message)
@@ -694,16 +705,19 @@ class TestPublish(unittest.TestCase):
         if(received_message == self.expectedMessage):
             self.received = True
         self.assertFalse(self.received)
+        p.kill()
     
     #fail due to subscribe empty topic fail
     #helper 61
     def testCode7Case4(self):  
         """publish empty string topic""" 
+        print("run helper...")
+        code = str(61)
+        args = ['python', 'helper.py', code]
+        p = subprocess.Popen(args, cwd=(helper_dir))
+        time.sleep(connect_worst_timeout)
+
         self.anotherTopic = "/secondTopic"
-        self.assertIsNone(microgear.gearkey)
-        self.assertIsNone(microgear.gearsecret)    
-        self.assertIsNone(microgear.appid)
-        
         client.create(self.gearkey, self.gearsecret, self.appid)
        
         client.on_connect = MagicMock()
@@ -711,6 +725,7 @@ class TestPublish(unittest.TestCase):
         client.connect()
         time.sleep(connect_timeout)
         self.assertTrue(client.on_connect.called)
+        self.connected = True
         self.assertEqual(client.on_connect.call_count, 1)
 
         client.publish(self.anotherTopic, self.message)
@@ -722,14 +737,18 @@ class TestPublish(unittest.TestCase):
         if(received_message == self.expectedMessage):
             self.received = True
         self.assertFalse(self.received)
+        p.kill()
 
-        #helper 61
+    #helper 61
     def testCode7Case5(self):  
         """publish invalid topic - no slash""" 
+        print("run helper...")
+        code = str(61)
+        args = ['python', 'helper.py', code]
+        p = subprocess.Popen(args, cwd=(helper_dir))
+        time.sleep(connect_worst_timeout)
+
         self.invalidTopic = "firstTopic"
-        self.assertIsNone(microgear.gearkey)
-        self.assertIsNone(microgear.gearsecret)    
-        self.assertIsNone(microgear.appid)
         
         client.create(self.gearkey, self.gearsecret, self.appid)
        
@@ -738,6 +757,7 @@ class TestPublish(unittest.TestCase):
         client.connect()
         time.sleep(connect_timeout)
         self.assertTrue(client.on_connect.called)
+        self.connected = True
         self.assertEqual(client.on_connect.call_count, 1)
 
         client.publish(self.invalidTopic, self.message)
@@ -750,7 +770,7 @@ class TestPublish(unittest.TestCase):
             self.received = True
         self.assertFalse(self.received)
         self.assertTrue(client.on_connect.call_count > 1)
-
+        p.kill()
 
 class TestResettoken(unittest.TestCase):
     def setUp(self):
