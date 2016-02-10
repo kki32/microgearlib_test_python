@@ -1261,7 +1261,6 @@ class TestResettoken(unittest.TestCase):
     
     def testCode8Case3(self):  
         """resettoken twice"""
-        self.assertTrue(os.path.isfile(microgear_cache))
 
         self.assertIsNone(microgear.gearkey)
         self.assertIsNone(microgear.gearsecret)    
