@@ -24,10 +24,9 @@ helper_dir = os.path.join(os.getcwd()) + '/helpers'
 
 
 receiver_file = os.path.join(os.getcwd(),"receiver.txt")
+microgear_cache = os.path.join(os.getcwd(),"microgear.cache")
 
-
-
-class TestPublish(unittest.TestCase):
+class TestResettoken(unittest.TestCase):
     def setUp(self):
         print('setUp')
 
@@ -46,16 +45,18 @@ class TestPublish(unittest.TestCase):
         self.received = False
         self.connected = False
 
-        #clear microgear.cache file
-        cache_file = open(os.path.join(os.getcwd()+"/microgear.cache"), "w")
-        print(cache_file)
-        cache_file.write("")
-        cache_file.close()
+        # # #clear microgear.cache file
+        # cache_file = open(microgear_cache, "w")
+        # print(cache_file)
+        # cache_file.write("")
+        # cache_file.close()
+        if(os.path.isfile(microgear_cache):
+            os.remove(microgear_cache)
 
-        receiver_file = open(os.path.join(os.getcwd()+"/receiver.txt"), "w")
-        print(receiver_file)
-        receiver_file.write("")
-        receiver_file.close()
+        r_file = open(receiver_file, "w")
+        print(r_file)
+        r_file.write("")
+        r_file.close()
 
         imp.reload(client)
         imp.reload(microgear) 
@@ -63,153 +64,73 @@ class TestPublish(unittest.TestCase):
     def tearDown(self):
         #delete receive txt
         print('tearDown')
-        os.remove(os.path.join(os.getcwd()+"/receiver.txt"))
+        os.remove(receiver_file)
         if(self.connected):
             microgear.mqtt_client.disconnect()
- 
+  
+    # def testCode8Case1(self):  
+    #     """resettoken when no microgear.cache
+    #         pre-requisite: no microgear.cache file""" 
+    #     if(os.path.isfile(microgear_cache)):
+    #         os.remove(microgear_cache)
 
- 
-    #helper 61
-    def testCode7Case1(self):  
-        """publish topic after some microgear subscribe that topic""" 
-        try:
-            print("run helper...")
-            code = str(61)
-            args = ['python', 'helper.py', code]
-            p = subprocess.Popen(args, cwd=(helper_dir))
-            time.sleep(connect_worst_timeout)
+    #     self.assertIsNone(microgear.gearkey)
+    #     self.assertIsNone(microgear.gearsecret)    
+    #     self.assertIsNone(microgear.appid)
+        
+    #     client.create(self.gearkey, self.gearsecret, self.appid)
+       
+    #     client.on_connect = MagicMock()
 
-            client.create(self.gearkey, self.gearsecret, self.appid)
-           
-            client.on_connect = MagicMock()
-          
-            client.connect()
-            time.sleep(connect_timeout)
-            self.assertTrue(client.on_connect.called)
-            self.connected = True
-            self.assertEqual(client.on_connect.call_count, 1)
+    #     client.resettoken()
+    #     self.assertFalse(os.path.isfile(microgear_cache))
+   
 
-            client.publish(self.topic, self.message)
-            time.sleep(message_timeout)
+    def testCode8Case2(self):  
+        """resettoken when have microgear.cache while microgear is offline"""
+        #pre-requisite: ensure there is microgear.cache
+  
 
-            receiver_file = open(os.path.join(os.getcwd(),"receiver.txt"), "r")
-            received_message = receiver_file.read()
-            receiver_file.close()
-            print(received_message)
-            print('received')
-            if(received_message == self.message):
-                self.received = True
-            self.assertTrue(self.received)
-            p.kill()
-        except Exception as e:
-            p.kill()
-            raise Exception(e.args) 
-    #helper 61
-    def testCode7Case3(self):  
-        """publish topic that has no subscriber"""
-        try:
-            print("run helper...")
-            code = str(61)
-            args = ['python', 'helper.py', code]
-            p = subprocess.Popen(args, cwd=(helper_dir))
-            time.sleep(connect_worst_timeout)
+        self.assertIsNone(microgear.gearkey)
+        self.assertIsNone(microgear.gearsecret)    
+        self.assertIsNone(microgear.appid)
+        client.create(self.gearkey, self.gearsecret, self.appid, {'debugmode': True})
+        client.connect(False)
+        self.assertTrue(os.path.isfile(microgear_cache))
+        #resettoken when have microgear.cache
+        
+        client.resettoken()
 
-            self.anotherTopic = "/secondTopic"
-            
-            client.create(self.gearkey, self.gearsecret, self.appid)
-           
-            client.on_connect = MagicMock()
-          
-            client.connect()
-            time.sleep(connect_timeout)
-            self.assertTrue(client.on_connect.called)
-            self.connected = True
-            self.assertEqual(client.on_connect.call_count, 1)
+        time.sleep(4)
+        #should delete microgear.cache
+        self.assertFalse(os.path.isfile(microgear_cache))
 
-            client.publish(self.anotherTopic, self.message)
-            time.sleep(message_timeout)
+    
+    def testCode8Case3(self):  
+        """resettoken twice"""
+        self.assertTrue(os.path.isfile(microgear_cache))
 
-            receiver_file = open(os.path.join(os.getcwd(),"receiver.txt"), "r")
-            received_message = receiver_file.read()
-            receiver_file.close()
-            if(received_message == self.message):
-                self.received = True
-            self.assertFalse(self.received)
-            p.kill()
-        except Exception as e:
-            p.kill()
-            raise Exception(e.args) 
-    #fail due to subscribe empty topic fail
-    #helper 61
-    def testCode7Case4(self):  
-        """publish empty string topic"""
-        try:
-            print("run helper...")
-            code = str(61)
-            args = ['python', 'helper.py', code]
-            p = subprocess.Popen(args, cwd=(helper_dir))
-            time.sleep(connect_worst_timeout)
+        self.assertIsNone(microgear.gearkey)
+        self.assertIsNone(microgear.gearsecret)    
+        self.assertIsNone(microgear.appid)
 
-            self.anotherTopic = "/secondTopic"
-            client.create(self.gearkey, self.gearsecret, self.appid)
-           
-            client.on_connect = MagicMock()
-          
-            client.connect()
-            time.sleep(connect_timeout)
-            self.assertTrue(client.on_connect.called)
-            self.connected = True
-            self.assertEqual(client.on_connect.call_count, 1)
+        client.create(self.gearkey, self.gearsecret, self.appid, {'debugmode': True})
+        client.connect(False)
+        self.assertTrue(os.path.isfile(microgear_cache))
 
-            client.publish(self.anotherTopic, self.message)
-            time.sleep(message_timeout)
+        client.resettoken()
+        self.assertFalse(os.path.isfile(microgear_cache))
+        client.resettoken()
+        self.assertFalse(os.path.isfile(microgear_cache))
 
-            receiver_file = open(os.path.join(os.getcwd(),"receiver.txt"), "r")
-            received_message = receiver_file.read()
-            receiver_file.close()
-            if(received_message == self.message):
-                self.received = True
-            self.assertFalse(self.received)
-            p.kill()
-        except Exception as e:
-            p.kill()
-            raise Exception(e.args) 
-    #helper 61
-    def testCode7Case5(self):
-        """publish invalid topic - no slash"""
-        try:
-            print("run helper...")
-            code = str(61)
-            args = ['python', 'helper.py', code]
-            p = subprocess.Popen(args, cwd=(helper_dir))
-            time.sleep(connect_worst_timeout)
-
-            self.invalidTopic = "firstTopic"
-            
-            client.create(self.gearkey, self.gearsecret, self.appid)
-           
-            client.on_connect = MagicMock()
-          
-            client.connect()
-            time.sleep(connect_timeout)
-            self.assertTrue(client.on_connect.called)
-            self.connected = True
-            self.assertEqual(client.on_connect.call_count, 1)
-
-            client.publish(self.invalidTopic, self.message)
-            time.sleep(message_timeout)
-
-            receiver_file = open(os.path.join(os.getcwd(),"receiver.txt"), "r")
-            received_message = receiver_file.read()
-            receiver_file.close()
-            if(received_message == self.message):
-                self.received = True
-            self.assertFalse(self.received)
-            self.assertTrue(client.on_connect.call_count > 1)
-            p.kill()
-        except Exception as e:
-            p.kill()
-            raise Exception(e.args) 
+        client.on_connect = MagicMock()
+        #should not affect connect
+        client.connect()
+        time.sleep(connect_timeout)
+        self.assertTrue(client.on_connect.called)
+        self.assertEqual(client.on_connect.call_count, 1)
+        self.assertTrue(os.path.isfile(microgear_cache))
+    
 
 
 def main():
