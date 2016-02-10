@@ -257,229 +257,71 @@ class TestSubscribe(unittest.TestCase):
     #         p.kill()
     #         raise Exception(e.args)
 
-    # #helper 51 should publish topic
-    # def testCode5Case6x1(self):   
-    #     """subscribe invalid topic - no slash"""
-    #     try:
-    #         print('Code5Case6x1')
-    #         print("run helper...")
-    #         code = str(51)
-    #         args = ['python', 'helper.py', code]
-    #         p = subprocess.Popen(args, cwd=(helper_dir))
-    #         time.sleep(connect_worst_timeout)
-    #         self.topic = "firstTopic"
+    #helper 51 should publish topic
+    def testCode5Case6x1(self):   
+        """subscribe invalid topic - no slash"""
+        try:
+            print('Code5Case6x1')
+            print("run helper...")
+            code = str(51)
+            args = ['python', 'helper.py', code]
+            p = subprocess.Popen(args, cwd=(helper_dir))
+            time.sleep(connect_worst_timeout)
+            self.topic = "firstTopic"
             
-    #         client.create(self.gearkey, self.gearsecret, self.appid)
-    #         client.subscribe(self.topic)
+            client.create(self.gearkey, self.gearsecret, self.appid)
+            client.subscribe(self.topic)
        
-    #         client.on_connect = MagicMock()
-    #         client.on_message = MagicMock()
+            client.on_connect = MagicMock()
+            client.on_message = MagicMock()
            
-    #         client.connect()
-    #         time.sleep(connect_timeout)
-    #         self.assertTrue(client.on_connect.called)
-    #         self.connected = True
-    #         self.assertEqual(client.on_connect.call_count, 1)
-    #         time.sleep(message_timeout)
-    #         self.assertFalse(client.on_message.called)
-    #         p.kill()
+            client.connect()
+            time.sleep(connect_timeout)
+            self.assertTrue(client.on_connect.called)
+            self.connected = True
+            self.assertEqual(client.on_connect.call_count, 1)
+            time.sleep(message_timeout)
+            self.assertFalse(client.on_message.called)
+            p.kill()
 
-    #     #if fails due to assertion error
-    #     except Exception as e:
-    #         p.kill()
-    #         raise Exception(e.args)
+        #if fails due to assertion error
+        except Exception as e:
+            p.kill()
+            raise Exception(e.args)
 
-    # #helper 53 should publish invalid topic
-    # def testCode5Case6x2(self):
-    #     """subscribe invalid topic - no slash"""
-    #     try:
-    #         print('Code5Case6x2')   
-    #         print("run helper...")
-    #         code = str(53)
-    #         args = ['python', 'helper.py', code]
-    #         p = subprocess.Popen(args, cwd=(helper_dir))
-    #         time.sleep(connect_worst_timeout)
+    #helper 53 should publish invalid topic
+    def testCode5Case6x2(self):
+        """subscribe invalid topic - no slash"""
+        try:
+            print('Code5Case6x2')   
+            print("run helper...")
+            code = str(53)
+            args = ['python', 'helper.py', code]
+            p = subprocess.Popen(args, cwd=(helper_dir))
+            time.sleep(connect_worst_timeout)
 
-    #         self.topic = "firstTopic"
+            self.topic = "firstTopic"
 
-    #         client.create(self.gearkey, self.gearsecret, self.appid)
-    #         client.subscribe(self.topic)
+            client.create(self.gearkey, self.gearsecret, self.appid)
+            client.subscribe(self.topic)
        
-    #         client.on_connect = MagicMock()
-    #         client.on_message = MagicMock()
+            client.on_connect = MagicMock()
+            client.on_message = MagicMock()
            
-    #         client.connect()
-    #         time.sleep(connect_timeout)
-    #         self.assertTrue(client.on_connect.called)
-    #         self.connected = True
-    #         self.assertEqual(client.on_connect.call_count, 1)
-    #         time.sleep(message_timeout)
-    #         self.assertFalse(client.on_message.called)  
-    #         p.kill()
+            client.connect()
+            time.sleep(connect_timeout)
+            self.assertTrue(client.on_connect.called)
+            self.connected = True
+            self.assertEqual(client.on_connect.call_count, 1)
+            time.sleep(message_timeout)
+            self.assertFalse(client.on_message.called)  
+            p.kill()
 
-    #                                 #if fails due to assertion error
-    #     except Exception as e:
-    #         p.kill()
-    #         raise Exception(e.args)
+                                    #if fails due to assertion error
+        except Exception as e:
+            p.kill()
+            raise Exception(e.args)
 
-    #     #helper 51
-    # def testCode6Case1(self):  
-    #     """unsubscribe the subscribed topic"""
-    #     print('Code6Case1')
-    #     try: 
-    #         print("run helper...")
-    #         code = str(51)
-    #         args = ['python', 'helper.py', code]
-    #         p = subprocess.Popen(args, cwd=(helper_dir))
-    #         time.sleep(connect_worst_timeout)
-
-    #         client.create(self.gearkey, self.gearsecret, self.appid)
-           
-    #         client.on_connect = MagicMock()
-    #         client.on_message = MagicMock()
-          
-    #         client.connect()
-    #         time.sleep(connect_timeout)
-    #         self.assertTrue(client.on_connect.called)
-    #         self.connected = True
-    #         self.assertEqual(client.on_connect.call_count, 1) 
-
-    #         client.subscribe(self.topic)
-    #         time.sleep(message_timeout)
-    #         self.assertTrue(client.on_message.called)
-    #         client.unsubscribe(self.topic)
-    #         client.on_message.reset_mock()
-    #         self.assertFalse(client.on_message.called)
-    #         time.sleep(message_timeout)
-    #         self.assertFalse(client.on_message.called)
-    #         p.kill()
-
-    #     #if fails due to assertion error
-    #     except Exception as e:
-    #         p.kill()
-    #         raise Exception(e.args) 
-    # # helper 51
-    # def testCode6Case2(self):  
-    #     """unsubscribe the topic before subscribe""" 
-    #     print('Code6Case2')
-
-    #     print(microgear.gearkey)
- 
-    #     try:
-    #         print("run helper...")
-    #         code = str(51)
-    #         args = ['python', 'helper.py', code]
-    #         p = subprocess.Popen(args, cwd=(helper_dir))
-    #         time.sleep(connect_worst_timeout)
-    #         print(microgear.gearkey)
-    #         client.create(self.gearkey, self.gearsecret, self.appid)
-
-    #         client.on_connect = MagicMock()
-    #         client.on_message = MagicMock()
-          
-    #         client.connect()
-    #         time.sleep(connect_timeout)
-    #         self.assertTrue(client.on_connect.called)
-    #         self.connected = True
-    #         self.assertEqual(client.on_connect.call_count, 1) 
-    #         self.assertFalse(client.on_message.called)
-    #         client.unsubscribe(self.topic)
-    #         self.assertFalse(client.on_message.called)
-    #         client.subscribe(self.topic)
-    #         time.sleep(message_timeout)
-    #         self.assertTrue(client.on_message.called)
-    #         client.on_message.assert_called_with(self.expectedTopic, self.expectedMessage)
-    #         p.kill()
-
-    #     except Exception as e:
-    #         p.kill()
-    #         raise Exception(e.args) 
-
-    # #helper 51
-    # def testCode6Case3(self):  
-    #     """unsubscribe the same topic twice"""
-
-    #     print(microgear.gearkey)
-    
-    #     try:
-    #         print('Code6Case3')
-    #         print("run helper...")
-    #         code = str(51)
-    #         args = ['python', 'helper.py', code]
-    #         p = subprocess.Popen(args, cwd=(helper_dir))
-    #         time.sleep(connect_worst_timeout)
-    #         print(microgear.gearkey)
-    #         client.create(self.gearkey, self.gearsecret, self.appid)
-           
-    #         client.on_connect = MagicMock()
-    #         client.on_message = MagicMock()
-    #         self.assertFalse(client.on_connect.called)
-    #         self.assertFalse(client.on_message.called)
-
-    #         client.connect()
-    #         time.sleep(connect_timeout)
-    #         self.assertTrue(client.on_connect.called)
-    #         self.connected = True
-    #         self.assertEqual(client.on_connect.call_count, 1)
-    #         self.assertFalse(client.on_message.called)
-    #         client.subscribe(self.topic)
-    #         time.sleep(message_timeout)
-    #         self.assertTrue(client.on_message.called)
-    #         client.on_message.assert_called_with(self.expectedTopic, self.expectedMessage)
-    #         client.on_message.reset_mock()
-    #         self.assertFalse(client.on_message.called)
-    #         client.unsubscribe(self.topic)
-    #         time.sleep(connect_timeout)
-    #         self.assertFalse(client.on_message.called)
-    #         client.unsubscribe(self.topic)
-    #         time.sleep(connect_timeout)
-    #         self.assertFalse(client.on_message.called)
-    #         p.kill()
-    #     except Exception as e:
-    #         p.kill()
-    #         raise Exception(e.args) 
-
-    # #helper 51 to publish topic
-    # def testCode6Case4x1(self):  
-    #     """unsubscribe the empty topic"""
-    #     print('Code6Case4x1')
-    #     try:
-    #         print("run helper...")
-    #         code = str(51)
-    #         args = ['python', 'helper.py', code]
-    #         p = subprocess.Popen(args, cwd=(helper_dir))
-    #         time.sleep(connect_worst_timeout)
-
-    #         self.emptyStr = ""
-
-            
-    #         client.create(self.gearkey, self.gearsecret, self.appid)
-           
-    #         client.on_connect = MagicMock()
-    #         client.on_message = MagicMock()
-          
-    #         client.connect()
-    #         time.sleep(connect_timeout)
-    #         self.assertTrue(client.on_connect.called)
-    #         self.connected = True
-    #         self.assertEqual(client.on_connect.call_count, 1)
-    #         self.assertFalse(client.on_message.called)
-    #         client.subscribe(self.topic)
-    #         time.sleep(message_timeout)
-    #         self.assertTrue(client.on_message.called)
-    #         client.on_message.assert_called_with(self.expectedTopic, self.expectedMessage)
-
-    #         client.on_message.reset_mock()
-    #         self.assertFalse(client.on_message.called)
-
-    #         client.unsubscribe(self.emptyStr)
-    #         time.sleep(connect_timeout)
-    #         self.assertTrue(client.on_message.called)
-    #         client.on_message.assert_called_with(self.expectedTopic, self.expectedMessage)
-    #         p.kill()
-    #     except Exception as e:
-    #         p.kill()
-    #         raise Exception(e.args) 
 
 # class TestUnsubscribe(unittest.TestCase):
 #     def setUp(self):
@@ -521,9 +363,16 @@ class TestSubscribe(unittest.TestCase):
 #         if(self.connected):
 #             microgear.mqtt_client.disconnect()
  
-#     #helper 51
+
+
+
+
+
+
+#         #helper 51
 #     def testCode6Case1(self):  
 #         """unsubscribe the subscribed topic"""
+#         print('Code6Case1')
 #         try: 
 #             print("run helper...")
 #             code = str(51)
@@ -556,19 +405,22 @@ class TestSubscribe(unittest.TestCase):
 #         except Exception as e:
 #             p.kill()
 #             raise Exception(e.args) 
-#     #helper 51
+#     # helper 51
 #     def testCode6Case2(self):  
 #         """unsubscribe the topic before subscribe""" 
+#         print('Code6Case2')
 
+#         print(microgear.gearkey)
+ 
 #         try:
 #             print("run helper...")
 #             code = str(51)
 #             args = ['python', 'helper.py', code]
 #             p = subprocess.Popen(args, cwd=(helper_dir))
 #             time.sleep(connect_worst_timeout)
-
+#             print(microgear.gearkey)
 #             client.create(self.gearkey, self.gearsecret, self.appid)
-           
+
 #             client.on_connect = MagicMock()
 #             client.on_message = MagicMock()
           
@@ -585,6 +437,7 @@ class TestSubscribe(unittest.TestCase):
 #             self.assertTrue(client.on_message.called)
 #             client.on_message.assert_called_with(self.expectedTopic, self.expectedMessage)
 #             p.kill()
+
 #         except Exception as e:
 #             p.kill()
 #             raise Exception(e.args) 
@@ -592,18 +445,24 @@ class TestSubscribe(unittest.TestCase):
 #     #helper 51
 #     def testCode6Case3(self):  
 #         """unsubscribe the same topic twice"""
+
+#         print(microgear.gearkey)
+    
 #         try:
+#             print('Code6Case3')
 #             print("run helper...")
 #             code = str(51)
 #             args = ['python', 'helper.py', code]
 #             p = subprocess.Popen(args, cwd=(helper_dir))
 #             time.sleep(connect_worst_timeout)
-            
+#             print(microgear.gearkey)
 #             client.create(self.gearkey, self.gearsecret, self.appid)
            
 #             client.on_connect = MagicMock()
 #             client.on_message = MagicMock()
-          
+#             self.assertFalse(client.on_connect.called)
+#             self.assertFalse(client.on_message.called)
+
 #             client.connect()
 #             time.sleep(connect_timeout)
 #             self.assertTrue(client.on_connect.called)
@@ -629,43 +488,46 @@ class TestSubscribe(unittest.TestCase):
 
 #     #helper 51 to publish topic
 #     def testCode6Case4x1(self):  
-#         """unsubscribe the empty topic""" 
-#         print("run helper...")
-#         code = str(51)
-#         args = ['python', 'helper.py', code]
-#         p = subprocess.Popen(args, cwd=(helper_dir))
-#         time.sleep(connect_worst_timeout)
+#         """unsubscribe the empty topic"""
+#         print('Code6Case4x1')
+#         try:
+#             print("run helper...")
+#             code = str(51)
+#             args = ['python', 'helper.py', code]
+#             p = subprocess.Popen(args, cwd=(helper_dir))
+#             time.sleep(connect_worst_timeout)
 
-#         self.emptyStr = ""
+#             self.emptyStr = ""
 
-        
-#         client.create(self.gearkey, self.gearsecret, self.appid)
-       
-#         client.on_connect = MagicMock()
-#         client.on_message = MagicMock()
-      
-#         client.connect()
-#         time.sleep(connect_timeout)
-#         self.assertTrue(client.on_connect.called)
-#         self.connected = True
-#         self.assertEqual(client.on_connect.call_count, 1)
-#         self.assertFalse(client.on_message.called)
-#         client.subscribe(self.topic)
-#         time.sleep(message_timeout)
-#         self.assertTrue(client.on_message.called)
-#         client.on_message.assert_called_with(self.expectedTopic, self.expectedMessage)
+            
+#             client.create(self.gearkey, self.gearsecret, self.appid)
+           
+#             client.on_connect = MagicMock()
+#             client.on_message = MagicMock()
+          
+#             client.connect()
+#             time.sleep(connect_timeout)
+#             self.assertTrue(client.on_connect.called)
+#             self.connected = True
+#             self.assertEqual(client.on_connect.call_count, 1)
+#             self.assertFalse(client.on_message.called)
+#             client.subscribe(self.topic)
+#             time.sleep(message_timeout)
+#             self.assertTrue(client.on_message.called)
+#             client.on_message.assert_called_with(self.expectedTopic, self.expectedMessage)
 
-#         client.on_message.reset_mock()
-#         self.assertFalse(client.on_message.called)
+#             client.on_message.reset_mock()
+#             self.assertFalse(client.on_message.called)
 
-#         client.unsubscribe(emptyStr)
-#         time.sleep(connect_timeout)
-#         self.assertTrue(client.on_message.called)
-#         client.on_message.assert_called_with(self.expectedTopic, self.expectedMessage)
-#         p.kill()
+#             client.unsubscribe(self.emptyStr)
+#             time.sleep(connect_timeout)
+#             self.assertTrue(client.on_message.called)
+#             client.on_message.assert_called_with(self.expectedTopic, self.expectedMessage)
+#             p.kill()
 #         except Exception as e:
 #             p.kill()
 #             raise Exception(e.args) 
+
 
 #     #fail due to subscribe to empty string fail
 #     #helper 52 to publish empty string topic
