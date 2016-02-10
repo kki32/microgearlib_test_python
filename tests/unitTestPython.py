@@ -29,10 +29,13 @@ receiver_file = os.path.join(os.getcwd(),"receiver.txt")
 
 class TestPublish(unittest.TestCase):
     def setUp(self):
+        print('setUp')
+
         self.gearkey = "yMPSuoFBV6Ao322"
         self.gearsecret = "0LoUk4hHStPMzOg5TczeSps3L0XRcE"
         self.appid = "testPython"
         self.gearname = "mainPython"
+
 
         self.helperGearname = "helper"
         self.message = 'hello'
@@ -41,21 +44,30 @@ class TestPublish(unittest.TestCase):
         self.expectedMsgTopic = "/" + self.appid + "/gearname/" + self.gearname
         self.expectedTopic = "/" + self.appid + self.topic
         self.received = False
+        self.connected = False
 
         #clear microgear.cache file
         cache_file = open(os.path.join(os.getcwd()+"/microgear.cache"), "w")
         print(cache_file)
         cache_file.write("")
-        cache_file.close()    
-        
+        cache_file.close()
+
         receiver_file = open(os.path.join(os.getcwd()+"/receiver.txt"), "w")
         print(receiver_file)
         receiver_file.write("")
-        receiver_file.close()   
+        receiver_file.close()
 
+        imp.reload(client)
+        imp.reload(microgear) 
+         
     def tearDown(self):
         #delete receive txt
+        print('tearDown')
         os.remove(os.path.join(os.getcwd()+"/receiver.txt"))
+        if(self.connected):
+            microgear.mqtt_client.disconnect()
+ 
+
  
     #helper 61
     def testCode7Case1(self):  
@@ -83,7 +95,9 @@ class TestPublish(unittest.TestCase):
             receiver_file = open(os.path.join(os.getcwd(),"receiver.txt"), "r")
             received_message = receiver_file.read()
             receiver_file.close()
-            if(received_message == self.expectedMessage):
+            print(received_message)
+            print('received')
+            if(received_message == self.message):
                 self.received = True
             self.assertTrue(self.received)
             p.kill()
@@ -118,7 +132,7 @@ class TestPublish(unittest.TestCase):
             receiver_file = open(os.path.join(os.getcwd(),"receiver.txt"), "r")
             received_message = receiver_file.read()
             receiver_file.close()
-            if(received_message == self.expectedMessage):
+            if(received_message == self.message):
                 self.received = True
             self.assertFalse(self.received)
             p.kill()
@@ -153,7 +167,7 @@ class TestPublish(unittest.TestCase):
             receiver_file = open(os.path.join(os.getcwd(),"receiver.txt"), "r")
             received_message = receiver_file.read()
             receiver_file.close()
-            if(received_message == self.expectedMessage):
+            if(received_message == self.message):
                 self.received = True
             self.assertFalse(self.received)
             p.kill()
@@ -188,7 +202,7 @@ class TestPublish(unittest.TestCase):
             receiver_file = open(os.path.join(os.getcwd(),"receiver.txt"), "r")
             received_message = receiver_file.read()
             receiver_file.close()
-            if(received_message == self.expectedMessage):
+            if(received_message == self.message):
                 self.received = True
             self.assertFalse(self.received)
             self.assertTrue(client.on_connect.call_count > 1)
