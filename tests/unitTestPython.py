@@ -711,42 +711,42 @@ class TestUnsubscribe(unittest.TestCase):
 
 
 
-        #helper 51
-    def testCode6Case1(self):  
-        """unsubscribe the subscribed topic"""
-        print('Code6Case1')
-        try: 
-            print("run helper...")
-            code = str(51)
-            args = ['python', 'helper.py', code]
-            p = subprocess.Popen(args, cwd=(helper_dir))
-            time.sleep(connect_worst_timeout)
+#         #helper 51
+#     def testCode6Case1(self):  
+#         """unsubscribe the subscribed topic"""
+#         print('Code6Case1')
+#         try: 
+#             print("run helper...")
+#             code = str(51)
+#             args = ['python', 'helper.py', code]
+#             p = subprocess.Popen(args, cwd=(helper_dir))
+#             time.sleep(connect_worst_timeout)
 
-            client.create(self.gearkey, self.gearsecret, self.appid)
+#             client.create(self.gearkey, self.gearsecret, self.appid)
            
-            client.on_connect = MagicMock()
-            client.on_message = MagicMock()
+#             client.on_connect = MagicMock()
+#             client.on_message = MagicMock()
           
-            client.connect()
-            time.sleep(connect_timeout)
-            self.assertTrue(client.on_connect.called)
-            self.connected = True
-            self.assertEqual(client.on_connect.call_count, 1) 
+#             client.connect()
+#             time.sleep(connect_timeout)
+#             self.assertTrue(client.on_connect.called)
+#             self.connected = True
+#             self.assertEqual(client.on_connect.call_count, 1) 
 
-            client.subscribe(self.topic)
-            time.sleep(message_timeout)
-            self.assertTrue(client.on_message.called)
-            client.unsubscribe(self.topic)
-            client.on_message.reset_mock()
-            self.assertFalse(client.on_message.called)
-            time.sleep(message_timeout)
-            self.assertFalse(client.on_message.called)
-            p.kill()
+#             client.subscribe(self.topic)
+#             time.sleep(message_timeout)
+#             self.assertTrue(client.on_message.called)
+#             client.unsubscribe(self.topic)
+#             client.on_message.reset_mock()
+#             self.assertFalse(client.on_message.called)
+#             time.sleep(message_timeout)
+#             self.assertFalse(client.on_message.called)
+#             p.kill()
 
-        #if fails due to assertion error
-        except Exception as e:
-            p.kill()
-            raise Exception(e.args) 
+#         #if fails due to assertion error
+#         except Exception as e:
+#             p.kill()
+#             raise Exception(e.args) 
     # helper 51
     def testCode6Case2(self):  
         """unsubscribe the topic before subscribe""" 
