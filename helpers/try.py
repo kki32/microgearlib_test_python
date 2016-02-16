@@ -2,12 +2,12 @@ import microgear.client as client
 import time
 import os
 
-# if(os.path.isfile(os.path.join(os.getcwd(),"microgear.cache"))):
-#     cache_file = open(os.path.join(os.getcwd()+"/microgear.cache"), "w")
+# if not (os.path.isfile(os.path.join(os.getcwd(),"microgear.cache"))):
+#     cache_file = open(os.path.join(os.getcwd(),"microgear.cache"), "w")
 #     print(cache_file)
 #     cache_file.write("")
 #     cache_file.close()  
-#     time.sleep(6)
+
 
 gearkey = "yMPSuoFBV6Ao322"
 gearsecret = "0LoUk4hHStPMzOg5TczeSps3L0XRcE"
@@ -31,8 +31,9 @@ client.on_message = subscription
 # client.subscribe("/firstTopic")
 print('resettoken')
 client.resettoken()
-time.sleep(10)
-# client.connect(False)
+client.resettoken()
+time.sleep(3)
+client.connect(False)
 # while(True):
 #     client.chat("firstTopic","Hello world.")
 #     print("pub")
